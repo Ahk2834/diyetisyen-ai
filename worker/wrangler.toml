@@ -1,0 +1,11 @@
+name = "diyetisyen-ai-worker"
+main = "index.js"
+compatibility_date = "2026-09-01"
+[vars]
+ALLOWED_ORIGIN = "https://KULLANICI_ADI.github.io"
+GEMINI_MODEL = "GUNCEL_UCRETSIZ_KOTA_MODELI"
+[[unsafe.bindings]]
+name = "RATE_LIMITER"
+type = "ratelimit"
+namespace_id = "1001"
+simple = { limit = 10, period = 60 }
