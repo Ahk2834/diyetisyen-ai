@@ -55,3 +55,21 @@ T.C. Sağlık Bakanlığı TÜBER 2022, Türkiye Fiziksel Aktivite Rehberi, TÜR
 
 ## Lisans
 Kod için MIT lisansı; içerik ve üçüncü taraf kaynak lisansları ayrıca doğrulanmalıdır.
+
+
+## v0.3 – Kişisel enerji tahmini
+- 18–100 yaş için Mifflin–St Jeor dinlenme enerji tahmini ve aktivite katsayısı.
+- Kilo verme hakkında bilgi hedefinde yalnızca örnek referans olarak sınırlı fark uygulanır.
+- Örnek öğünlerde yaklaşık porsiyon ölçekleme 0,8–1,3 aralığıyla sınırlandırılır.
+- Menü verileri klinik doğrulanmış olmadığı için tahmini rakamlar **reçete veya tıbbi beslenme planı değildir**.
+- Sağlık durumu, ilaç kullanımı veya gebelik/emzirme işaretlenirse kişisel enerji menüsü oluşturulmaz.
+- Profil oturum belleğinde tutulur, AI servisine gönderilmez.
+- GitHub Pages dağıtımında lockfile olmadan `npm install` çalışabilmesi için cache ayarı çıkarıldı.
+
+### Güncelleme
+ZIP içindeki `diyetisyen-ai` klasörünün **içeriğini** mevcut GitHub deposuna yükleyin. GitHub'ın web arayüzü mevcut dosyaları aynı yolla güncellemeyebilir; en güvenlisi git ile `git add -A && git commit -m 'Kişisel plan motoru v0.3' && git push` veya GitHub Desktop kullanmaktır.
+
+
+## v0.4 – Yerel çoklu profil
+
+Profil adı ile farklı kullanıcılar tarayıcının localStorage alanında ayrı ayrı saklanır. Kayıt öncesi açık rıza kutusu gerekir. Profil seçildiğinde menü yeniden hesaplanır; profil silinebilir. Depolama **şifreli değildir**, ortak cihazlarda kullanılmamalıdır ve tarayıcı verileri temizlenirse profiller kaybolur. Klinik hastalıklarda tedavi diyeti yerine güvenlik uyarısı ve genel bilgi sunulur; çölyakta kayıtlı gluten alerjenleri filtrelenir. Hastalık adından yola çıkarak ilaç veya hastalığa özgü gram/sodyum/potasyum hedefi otomatik reçetelenmez. Gerçek kullanıcılar için güvenli kimlik doğrulama, sunucu tarafı şifreleme, KVKK uyumluluğu ve uzman doğrulaması gereklidir.
