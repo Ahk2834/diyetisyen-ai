@@ -17,7 +17,7 @@ export function auditIllustrativeMenu(
   const expected = mealsPerDay === 3
     ? ['Kahvaltı', 'Öğle', 'Akşam']
     : ['Kahvaltı', 'Öğle', 'Akşam', 'Ara öğün'];
-  const present = new Set(menu.map(meal => meal.category));
+  const present = new Set<Meal['category'] | string>(menu.map(meal => meal.category));
   const missingCategories = expected.filter(category => !present.has(category));
   const normalizedExclusions = excludedIngredients.map(x => x.trim().toLocaleLowerCase('tr-TR')).filter(Boolean);
   const warnings: string[] = [];
