@@ -1,0 +1,23 @@
+name: Full V1 Quality Checks
+on:
+  push:
+    branches: [full-v1-development]
+  pull_request:
+    branches: [main, full-v1-development]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Run automated tests
+        run: npm test
+      - name: Check TypeScript and production build
+        run: npm run build
