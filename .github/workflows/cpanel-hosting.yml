@@ -1,0 +1,47 @@
+name: cPanel Hosting Package
+on:
+  workflow_dispatch:
+  push:
+    branches: [full-v1-development]
+    paths:
+      - 'src/**'
+      - 'index.html'
+      - 'vite.config.ts'
+      - 'package.json'
+      - 'tests/**'
+      - 'public/**'
+      - '.github/workflows/cpanel-hosting.yml'
+permissions:
+  contents: read
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Run tests
+        run: npm test
+      - name: Build for cPanel subdirectory
+        env:
+          HOSTING_BASE_PATH: diyetisyen-ai
+        run: npm run build
+      - name: Verify generated site
+        run: |
+          test -s dist/index.html
+          test -d dist/assets
+          grep -q '/diyetisyen-ai/assets/' dist/index.html
+      - name: Create deployment ZIP
+        run: |
+          cd dist
+          zip -qr ../diyetisyen-ai-cpanel.zip .
+      - name: Upload cPanel package
+        uses: actions/upload-artifact@v4
+        with:
+          name: diyetisyen-ai-cpanel-site
+          path: diyetisyen-ai-cpanel.zip
+          retention-days: 14
+          if-no-files-found: error
