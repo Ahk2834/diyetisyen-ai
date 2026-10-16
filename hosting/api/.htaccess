@@ -1,0 +1,4 @@
+Options -Indexes
+<FilesMatch "^(?!health\.php$).+\.php$">
+  Require all denied
+</FilesMatch>
