@@ -1,2 +1,11 @@
 import {defineConfig} from 'vite';
-export default defineConfig({base:process.env.GITHUB_PAGES==='true' ? `/${process.env.GITHUB_REPOSITORY?.split('/')[1] ?? 'diyetisyen-ai'}/` : '/'});
+
+const githubBase = `/${process.env.GITHUB_REPOSITORY?.split('/')[1] ?? 'diyetisyen-ai'}/`;
+const hostingPath = process.env.HOSTING_BASE_PATH;
+const normalizedHostingBase = hostingPath
+  ? `/${hostingPath.replace(/^\/+|\/+$/g, '')}/`
+  : '/';
+
+export default defineConfig({
+  base: process.env.GITHUB_PAGES === 'true' ? githubBase : normalizedHostingBase,
+});
