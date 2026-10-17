@@ -34,3 +34,5 @@ jobs:
         run: php hosting/tests/auth_rate_limit_test.php
       - name: Test rate-limit DB helper guards
         run: php hosting/tests/auth_rate_limit_db_test.php
+      - name: Test private login service input guards
+        run: php hosting/tests/auth_login_service_test.php
