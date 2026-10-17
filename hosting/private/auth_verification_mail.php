@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 require_once __DIR__ . '/auth_email_verification.php';
+require_once __DIR__ . '/auth_verification_link.php';
 
 /**
  * Construct verification mail content. Delivery is deliberately separate.
@@ -11,7 +12,7 @@ function auth_verification_mail(string $email, string $token): array {
         throw new InvalidArgumentException('Invalid email');
     }
     auth_email_verification_hash($token);
-    $url = 'https://yenilikciegitim.com/diyetisyen-ai/verify-email?token=' . rawurlencode($token);
+    $url = auth_verification_link($token);
     return [
         'to' => $email,
         'subject' => 'Diyetisyen AI - E-posta doğrulama',
