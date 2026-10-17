@@ -25,7 +25,7 @@ jobs:
       - name: Verify auth stays disabled by default
         run: |
           grep -q 'registration_not_enabled' hosting/api/auth.php
-          grep -q 'login_not_enabled' hosting/api/auth.php
+          grep -q 'login_not_enabled' hosting/private/auth_login_handler.php
       - name: Test authentication password primitives
         run: php hosting/tests/auth_core_test.php
       - name: Test secure cookie and origin policy
