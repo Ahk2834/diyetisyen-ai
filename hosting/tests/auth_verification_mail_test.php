@@ -7,7 +7,7 @@ function mail_check(bool $ok, string $label): void {
     if (!$ok) { fwrite(STDERR, "FAIL: {$label}\n"); exit(1); }
 }
 mail_check($mail['to'] === 'test@example.com', 'Recipient preserved');
-mail_check(str_starts_with($mail['verification_url'], 'https://yenilikciegitim.com/diyetisyen-ai/verify-email?token='), 'HTTPS link');
+mail_check(str_starts_with($mail['verification_url'], 'https://yenilikciegitim.com/diyetisyen-ai/verify-email/?token='), 'HTTPS link');
 mail_check(str_contains($mail['text'], $token), 'Token included in user-facing email');
 mail_check(str_contains($mail['text'], '30 dakika'), 'Expiry described');
 $invalid = false;
