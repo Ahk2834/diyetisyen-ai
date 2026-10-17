@@ -4,6 +4,7 @@ require __DIR__ . '/../private/auth_email_verification_db.php';
 require __DIR__ . '/../private/auth_login_service.php';
 require __DIR__ . '/../private/auth_pending_registration.php';
 require __DIR__ . '/../private/auth_registration_service.php';
+require __DIR__ . '/../private/auth_verify_handler.php';
 $dsn = getenv('AUTH_TEST_MYSQL_DSN');
 if (!$dsn) { fwrite(STDERR, "Missing test-only MySQL DSN\n"); exit(1); }
 $pdo = new PDO($dsn, getenv('AUTH_TEST_MYSQL_USER') ?: '', getenv('AUTH_TEST_MYSQL_PASSWORD') ?: '', [
@@ -27,8 +28,10 @@ $check = $pdo->prepare('SELECT status FROM app_users WHERE id = ?');
 $check->execute([$userId]);
 if ($check->fetchColumn() !== 'pending') throw new RuntimeException('New account must be pending');
 $token = $created['verification_token'];
-if (!auth_consume_email_verification($pdo, $token)) throw new RuntimeException('First verification failed');
-if (auth_consume_email_verification($pdo, $token)) throw new RuntimeException('Replay was accepted');
+[$verifyStatus, $verifyBody] = auth_handle_email_verification($pdo, ['token' => $token]);
+if ($verifyStatus !== 200 || ($verifyBody['status'] ?? '') !== 'email_verified') throw new RuntimeException('First verification failed');
+[$replayStatus, $replayBody] = auth_handle_email_verification($pdo, ['token' => $token]);
+if ($replayStatus !== 400 || ($replayBody['error'] ?? '') !== 'invalid_or_expired_token') throw new RuntimeException('Replay was accepted');
 $check->execute([$userId]);
 if ($check->fetchColumn() !== 'active') throw new RuntimeException('Account was not activated');
 $count = $pdo->prepare('SELECT COUNT(*) FROM app_email_verifications WHERE user_id = ? AND consumed_at IS NOT NULL');
