@@ -1,40 +1,26 @@
 <?php
 declare(strict_types=1);
-/**
- * Provider adapter. Configuration belongs outside public_html.
- * Expected settings: enabled, endpoint, api_key, model.
- */
+/** Gemini generateContent adapter; credentials are supplied only by private settings. */
 function dietai_provider_answer(string $message,array $settings): array {
-    if (($settings['enabled'] ?? false) !== true) {
-        return ['ok'=>false,'error'=>'ai_not_configured'];
-    }
-    $url=$settings['endpoint'] ?? '';
-    $key=$settings['api_key'] ?? '';
-    $model=$settings['model'] ?? '';
-    if (!is_string($url)||!is_string($key)||!is_string($model)
-        ||$key===''||$model===''||!preg_match('~^https://[a-zA-Z0-9.-]+(?::443)?/[^\\s]*$~D',$url)) {
-        return ['ok'=>false,'error'=>'ai_not_configured'];
-    }
-    $host=parse_url($url,PHP_URL_HOST);
-    $allowed=$settings['allowed_host'] ?? '';
-    if (!is_string($host)||!is_string($allowed)||!hash_equals($allowed,$host)) {
+    if (($settings['enabled'] ?? false)!==true) return ['ok'=>false,'error'=>'ai_not_configured'];
+    $key=$settings['api_key'] ?? null;
+    $model=$settings['model'] ?? null;
+    if (!is_string($key)||strlen($key)<16||!is_string($model)||
+        !preg_match('/^[a-zA-Z0-9._-]{3,80}$/D',$model)) {
         return ['ok'=>false,'error'=>'ai_not_configured'];
     }
     if (!function_exists('curl_init')) return ['ok'=>false,'error'=>'provider_unavailable'];
+    $url='https://generativelanguage.googleapis.com/v1beta/models/'.rawurlencode($model).':generateContent';
     $payload=json_encode([
-      'model'=>$model,
-      'messages'=>[
-        ['role'=>'system','content'=>'Türkçe yanıt ver. Genel beslenme eğitimi sun. Tanı koyma, ilaç veya takviye dozu önerme, hastalık tedavisi veya kişiye özel klinik diyet yazma. Acil belirtilerde sağlık hizmetine yönlendir. Kısa ve anlaşılır ol.'],
-        ['role'=>'user','content'=>$message]
-      ],
-      'max_tokens'=>500,
-      'temperature'=>0.3
-    ],JSON_UNESCAPED_UNICODE);
-    if (!is_string($payload)) return ['ok'=>false,'error'=>'provider_unavailable'];
+      'systemInstruction'=>['parts'=>[['text'=>'Türkçe ve kısa yanıt ver. Yalnızca genel beslenme ve sağlıklı yaşam eğitimi sun. Tanı koyma, ilaç veya takviye dozu önerme, kişiye özel klinik diyet veya tedavi yazma. Acil belirtilerde acil sağlık hizmetine yönlendir.']]],
+      'contents'=>[['role'=>'user','parts'=>[['text'=>$message]]]],
+      'generationConfig'=>['maxOutputTokens'=>500,'temperature'=>0.3]
+    ],JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
+    if (!is_string($payload))return ['ok'=>false,'error'=>'provider_unavailable'];
     $ch=curl_init($url);
     curl_setopt_array($ch,[
       CURLOPT_POST=>true,CURLOPT_POSTFIELDS=>$payload,
-      CURLOPT_HTTPHEADER=>['Content-Type: application/json','Authorization: Bearer '.$key],
+      CURLOPT_HTTPHEADER=>['Content-Type: application/json','x-goog-api-key: '.$key],
       CURLOPT_RETURNTRANSFER=>true,CURLOPT_CONNECTTIMEOUT=>5,CURLOPT_TIMEOUT=>20,
       CURLOPT_FOLLOWLOCATION=>false,CURLOPT_SSL_VERIFYPEER=>true,CURLOPT_SSL_VERIFYHOST=>2,
       CURLOPT_PROTOCOLS=>CURLPROTO_HTTPS,
@@ -42,11 +28,13 @@ function dietai_provider_answer(string $message,array $settings): array {
     $response=curl_exec($ch);
     $status=(int)curl_getinfo($ch,CURLINFO_RESPONSE_CODE);
     curl_close($ch);
-    if (!is_string($response)||$status!==200||strlen($response)>50000) {
+    if (!is_string($response)||$status!==200||strlen($response)>50000)
         return ['ok'=>false,'error'=>'provider_unavailable'];
-    }
     $decoded=json_decode($response,true);
-    $answer=$decoded['choices'][0]['message']['content'] ?? null;
-    if (!is_string($answer)||trim($answer)==='') return ['ok'=>false,'error'=>'provider_unavailable'];
+    $parts=$decoded['candidates'][0]['content']['parts'] ?? [];
+    if (!is_array($parts))return ['ok'=>false,'error'=>'provider_unavailable'];
+    $answer='';
+    foreach($parts as $part){if(is_array($part)&&is_string($part['text']??null))$answer.=$part['text'];}
+    if (trim($answer)==='')return ['ok'=>false,'error'=>'provider_unavailable'];
     return ['ok'=>true,'answer'=>mb_substr($answer,0,3000)];
 }
