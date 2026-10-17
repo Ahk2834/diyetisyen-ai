@@ -26,3 +26,5 @@ jobs:
         run: |
           grep -q 'registration_not_enabled' hosting/api/auth.php
           grep -q 'login_not_enabled' hosting/api/auth.php
+      - name: Test authentication password primitives
+        run: php hosting/tests/auth_core_test.php
