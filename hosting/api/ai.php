@@ -22,17 +22,24 @@ if (!is_string($origin) || !hash_equals('https://yenilikciegitim.com',$origin)) 
 if (stripos((string)($_SERVER['CONTENT_TYPE'] ?? ''),'application/json') !== 0) {
     ai_reply(415,['error'=>'json_required']);
 }
-if ((int)($_SERVER['CONTENT_LENGTH'] ?? 0) > 4096) {
+if ((int)($_SERVER['CONTENT_LENGTH'] ?? 0) > 24576) {
     ai_reply(413,['error'=>'request_too_large']);
 }
-$raw = file_get_contents('php://input',false,null,0,4097);
-if (!is_string($raw) || strlen($raw)>4096) {
+$raw = file_get_contents('php://input',false,null,0,24577);
+if (!is_string($raw) || strlen($raw)>24576) {
     ai_reply(413,['error'=>'request_too_large']);
 }
 $data = json_decode($raw,true);
 $message = is_array($data) ? ($data['message'] ?? null) : null;
 if (!is_string($message) || trim($message)==='' || mb_strlen($message)>1200) {
     ai_reply(400,['error'=>'invalid_message']);
+}
+$historyInput=is_array($data) ? ($data['history'] ?? []) : [];
+if (!is_array($historyInput) || count($historyInput)>10) ai_reply(400,['error'=>'invalid_history']);
+$history=[];
+foreach ($historyInput as $turn) {
+    if (!is_array($turn) || !in_array($turn['role'] ?? null,['user','model'],true) || !is_string($turn['text'] ?? null) || trim($turn['text'])==='' || mb_strlen($turn['text'])>1500) ai_reply(400,['error'=>'invalid_history']);
+    $history[]=['role'=>$turn['role'],'text'=>$turn['text']];
 }
 // Load secrets exclusively from a private directory outside public_html.
 $private=dirname(__DIR__,3).'/diyetai_private';
@@ -48,6 +55,6 @@ if (!is_string($client)||!is_string($secret)||
     !dietai_ai_allow_request($client,$secret,$private.'/ai_rate_limits',time())) {
     ai_reply(429,['error'=>'rate_limited']);
 }
-$result=dietai_provider_answer(trim($message),$settings);
+$result=dietai_provider_answer(trim($message),$settings,$history);
 if (($result['ok'] ?? false)!==true) ai_reply(503,['error'=>'provider_unavailable']);
 ai_reply(200,['answer'=>$result['answer']]);
