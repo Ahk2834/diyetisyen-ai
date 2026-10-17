@@ -67,3 +67,5 @@ jobs:
         run: php hosting/tests/auth_mysql_integration_test.php
       - name: Test verification email content
         run: php hosting/tests/auth_verification_mail_test.php
+      - name: Test verification mail delivery adapter
+        run: php hosting/tests/auth_mail_delivery_test.php
