@@ -36,6 +36,11 @@ if (!is_string($action)) respond(400,['ok'=>false,'error'=>'invalid_action']);
 // Account registration remains deliberately disabled until rate limiting,
 // CSRF/origin policy, consent and account recovery are implemented.
 if ($action==='register') respond(503,['ok'=>false,'error'=>'registration_not_enabled']);
+if ($action==='verify_email') {
+    require_once '/home2/yenilikc/diyetai_private/auth_verify_request.php';
+    [$status, $payload] = auth_handle_verify_request($data, $_SERVER);
+    respond($status, $payload);
+}
 if ($action!=='login') respond(400,['ok'=>false,'error'=>'unsupported_action']);
 
 $email=$data['email'] ?? null;
