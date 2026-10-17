@@ -3,6 +3,7 @@ declare(strict_types=1);
 require __DIR__ . '/../private/auth_email_verification_db.php';
 require __DIR__ . '/../private/auth_login_service.php';
 require __DIR__ . '/../private/auth_pending_registration.php';
+require __DIR__ . '/../private/auth_registration_service.php';
 $dsn = getenv('AUTH_TEST_MYSQL_DSN');
 if (!$dsn) { fwrite(STDERR, "Missing test-only MySQL DSN\n"); exit(1); }
 $pdo = new PDO($dsn, getenv('AUTH_TEST_MYSQL_USER') ?: '', getenv('AUTH_TEST_MYSQL_PASSWORD') ?: '', [
@@ -45,5 +46,19 @@ for ($attempt = 0; $attempt < 5; $attempt++) {
 }
 $blocked = auth_login($pdo, $address, 'wrong-password', $secret);
 if (($blocked['error'] ?? '') !== 'too_many_attempts') throw new RuntimeException('Rate limit failed');
+$deliveryAddress = 'delivery-' . bin2hex(random_bytes(8)) . '@example.invalid';
+$delivered = [];
+$registration = auth_register_and_send(
+    $pdo, $deliveryAddress, 'IntegrationTestPassword2026!',
+    function (string $to, string $subject, string $body) use (&$delivered): void {
+        $delivered[] = [$to, $subject, $body];
+    }
+);
+if (!$registration['ok'] || count($delivered) !== 1) throw new RuntimeException('Verification delivery orchestration failed');
+$checkEmail = $pdo->prepare('SELECT id, status FROM app_users WHERE email = ?');
+$checkEmail->execute([$deliveryAddress]);
+$pendingUser = $checkEmail->fetch(PDO::FETCH_ASSOC);
+if (!$pendingUser || $pendingUser['status'] !== 'pending') throw new RuntimeException('Email delivery activated account unexpectedly');
+$pdo->prepare('DELETE FROM app_users WHERE id = ?')->execute([(int)$pendingUser['id']]);
 $pdo->prepare('DELETE FROM app_users WHERE id = ?')->execute([$userId]);
 echo "AUTH_MYSQL_INTEGRATION_OK\n";
