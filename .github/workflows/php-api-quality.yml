@@ -32,3 +32,5 @@ jobs:
         run: php hosting/tests/auth_http_test.php
       - name: Test login attempt limiting helpers
         run: php hosting/tests/auth_rate_limit_test.php
+      - name: Test rate-limit DB helper guards
+        run: php hosting/tests/auth_rate_limit_db_test.php
