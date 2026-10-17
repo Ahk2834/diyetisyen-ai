@@ -36,3 +36,5 @@ jobs:
         run: php hosting/tests/auth_rate_limit_db_test.php
       - name: Test private login service input guards
         run: php hosting/tests/auth_login_service_test.php
+      - name: Verify login is disabled without private configuration
+        run: php hosting/tests/auth_login_handler_test.php
