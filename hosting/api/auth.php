@@ -43,5 +43,7 @@ $password=$data['password'] ?? null;
 if (!is_string($email) || !is_string($password) || strlen($email)>254 || strlen($password)>1024) {
     respond(400,['ok'=>false,'error'=>'invalid_input']);
 }
-// Login also disabled until abuse protection and cookie-based sessions are ready.
-respond(503,['ok'=>false,'error'=>'login_not_enabled']);
+// Login is disabled unless explicitly enabled in private server settings.
+require_once '/home2/yenilikc/diyetai_private/auth_login_handler.php';
+[$status, $payload] = auth_handle_login($data, $_SERVER);
+respond($status, $payload);
