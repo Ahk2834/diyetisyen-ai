@@ -10,9 +10,10 @@ $pdo = new PDO($dsn, getenv('AUTH_TEST_MYSQL_USER') ?: '', getenv('AUTH_TEST_MYS
 $root = dirname(__DIR__);
 foreach (['001_auth_schema.sql','003_email_verification.sql','004_pending_account_status.sql'] as $migration) {
     $sql = file_get_contents($root . '/sql/' . $migration);
-    // These migration files have no stored procedures or semicolons in strings.
+    // Remove full-line SQL comments before splitting into statements.
+    $sql = preg_replace('/^[ \t]*--[^\r\n]*(?:\r?\n|$)/m', '', $sql);
     foreach (explode(';', $sql) as $statement) {
-        $statement = trim(preg_replace('/^\s*--[^\n]*(?:\n|$)/m', '', $statement));
+        $statement = trim($statement);
         if ($statement !== '') $pdo->exec($statement);
     }
 }
