@@ -65,3 +65,5 @@ jobs:
           AUTH_TEST_MYSQL_USER: root
           AUTH_TEST_MYSQL_PASSWORD: test-only-root-password
         run: php hosting/tests/auth_mysql_integration_test.php
+      - name: Test verification email content
+        run: php hosting/tests/auth_verification_mail_test.php
