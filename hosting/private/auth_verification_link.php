@@ -9,5 +9,5 @@ function auth_verification_link(string $token): string {
     if (!preg_match('/^[a-f0-9]{64}$/D', $token)) {
         throw new InvalidArgumentException('Invalid verification token');
     }
-    return 'https://yenilikciegitim.com/diyetisyen-ai/verify-email?token=' . rawurlencode($token);
+    return 'https://yenilikciegitim.com/diyetisyen-ai/verify-email/?token=' . rawurlencode($token);
 }
