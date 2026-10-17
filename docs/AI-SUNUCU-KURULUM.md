@@ -1,3 +1,18 @@
+# Gemini API kurulum güncellemesi
+
+Diyetisyen AI artık Google Gemini `generateContent` biçimini kullanır. Önceki OpenAI-uyumlu `endpoint` ve `allowed_host` ayarları kullanılmaz.
+
+Özel `/home2/yenilikc/diyetai_private/ai_settings.php` dosyası aşağıdaki alanları içeren bir PHP dizisi döndürmelidir:
+
+- `enabled`: testler tamamlanana kadar `false`
+- `api_key`: Google AI Studio üzerinden alınan gizli Gemini API anahtarı
+- `model`: AI Studio'da hesabınızda erişilebilir, ücretsiz kotası bulunan modelin **tam kimliği**
+- `rate_limit_secret`: en az 32 karakter rastgele sır
+
+Anahtarı asla GitHub'a, uygulama arayüzüne veya Android APK'ya eklemeyin. `hosting/private/ai_provider.php` dosyasını özel sunucu dizinine ayrıca yükleyin. Gemini ücretsiz katmanında mesajların Google tarafından ürün geliştirme amacıyla kullanılabilme ihtimalini kullanıcılara açıkça bildirin; kayıtlı sağlık profilini otomatik göndermeyin. Üretim öncesi KVKK ve sağlayıcı koşullarını değerlendirin.
+
+---
+
 # Diyetisyen AI sunucu bağlantısı — kurulum kontrolü
 
 Bu entegrasyon varsayılan olarak **kapalıdır**. GitHub kodunun başarılı derlenmesi canlı yapay zekâ hizmetinin çalıştığı anlamına gelmez.
