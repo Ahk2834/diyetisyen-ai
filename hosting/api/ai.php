@@ -35,7 +35,7 @@ if (!is_string($message) || trim($message)==='' || mb_strlen($message)>1200) {
     ai_reply(400,['error'=>'invalid_message']);
 }
 // Load secrets exclusively from a private directory outside public_html.
-$private=dirname(__DIR__,4).'/diyetai_private';
+$private=dirname(__DIR__,3).'/diyetai_private';
 $settingsPath=$private.'/ai_settings.php';
 if (!is_file($settingsPath)) ai_reply(503,['error'=>'ai_not_configured']);
 $settings=require $settingsPath;
