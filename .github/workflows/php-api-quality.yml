@@ -71,3 +71,5 @@ jobs:
         run: php hosting/tests/auth_mail_delivery_test.php
       - name: Test private verification handler input guards
         run: php hosting/tests/auth_verify_handler_test.php
+      - name: Test verification API disabled-by-default policy
+        run: php hosting/tests/auth_verify_request_test.php
