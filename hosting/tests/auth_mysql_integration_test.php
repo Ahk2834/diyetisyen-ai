@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 require __DIR__ . '/../private/auth_email_verification_db.php';
+require __DIR__ . '/../private/auth_login_service.php';
 $dsn = getenv('AUTH_TEST_MYSQL_DSN');
 if (!$dsn) { fwrite(STDERR, "Missing test-only MySQL DSN\n"); exit(1); }
 $pdo = new PDO($dsn, getenv('AUTH_TEST_MYSQL_USER') ?: '', getenv('AUTH_TEST_MYSQL_PASSWORD') ?: '', [
@@ -8,7 +9,7 @@ $pdo = new PDO($dsn, getenv('AUTH_TEST_MYSQL_USER') ?: '', getenv('AUTH_TEST_MYS
     PDO::ATTR_EMULATE_PREPARES => false,
 ]);
 $root = dirname(__DIR__);
-foreach (['001_auth_schema.sql','003_email_verification.sql','004_pending_account_status.sql'] as $migration) {
+foreach (['001_auth_schema.sql','003_email_verification.sql','004_pending_account_status.sql','002_login_rate_limit.sql'] as $migration) {
     $sql = file_get_contents($root . '/sql/' . $migration);
     // Remove full-line SQL comments before splitting into statements.
     $sql = preg_replace('/^[ \t]*--[^\r\n]*(?:\r?\n|$)/m', '', $sql);
@@ -32,5 +33,17 @@ if ($check->fetchColumn() !== 'active') throw new RuntimeException('Account was 
 $count = $pdo->prepare('SELECT COUNT(*) FROM app_email_verifications WHERE user_id = ? AND consumed_at IS NOT NULL');
 $count->execute([$userId]);
 if ((int)$count->fetchColumn() !== 1) throw new RuntimeException('Token was not consumed');
+$secret = str_repeat('s', 48);
+$validLogin = auth_login($pdo, $address, 'IntegrationTestPassword2026!', $secret);
+if (!$validLogin['ok'] || empty($validLogin['token'])) throw new RuntimeException('Active user login failed');
+if (!auth_find_session($pdo, $validLogin['token'])) throw new RuntimeException('Session not found');
+auth_revoke_session($pdo, $validLogin['token']);
+if (auth_find_session($pdo, $validLogin['token'])) throw new RuntimeException('Revoked session accepted');
+for ($attempt = 0; $attempt < 5; $attempt++) {
+    $bad = auth_login($pdo, $address, 'wrong-password', $secret);
+    if ($bad['ok']) throw new RuntimeException('Incorrect password accepted');
+}
+$blocked = auth_login($pdo, $address, 'wrong-password', $secret);
+if (($blocked['error'] ?? '') !== 'too_many_attempts') throw new RuntimeException('Rate limit failed');
 $pdo->prepare('DELETE FROM app_users WHERE id = ?')->execute([$userId]);
 echo "AUTH_MYSQL_INTEGRATION_OK\n";
