@@ -65,6 +65,14 @@ export const exercises=[
 {name:'Nazik boyun esnetme',emoji:'🧘',duration:'2–3 dk',level:'Hafif',steps:'Başınızı zorlamadan hafifçe sağa ve sola eğin; ani hareketlerden kaçının.',warning:'Uyuşma, baş dönmesi veya keskin ağrı olursa durun.'},
 {name:'Otururken ayak bileği hareketi',emoji:'🦶',duration:'2–4 dk',level:'Hafif',steps:'Otururken ayak bileklerini yavaşça yukarı aşağı hareket ettirin.',warning:'Ani tek taraflı şişlik, kızarıklık veya ağrı varsa değerlendirme alın.'},
 {name:'Denge çalışması',emoji:'⚖️',duration:'3–5 dk',level:'Orta',steps:'Sabit bir tezgâhın yanında, destek alarak kısa süre tek ayak üzerinde durmayı deneyin.',warning:'Düşme riski olanlar uzman desteği almalıdır.'}
+
+,{name:'Sandalyeden kontrollü kalkış',emoji:'🪑',duration:'5–8 dk',level:'Başlangıç',steps:'Sabit sandalyeye oturun; gerekirse kolçaklardan destek alarak yavaşça kalkıp tekrar oturun. 5–8 tekrar yapın.',warning:'Diz veya kalça ağrısında hareketi zorlamayın.'}
+,{name:'Duvar şınavı',emoji:'💪',duration:'4–6 dk',level:'Başlangıç',steps:'Ellerinizi omuz hizasında duvara yerleştirip gövdeyi kontrollü yaklaştırıp uzaklaştırın. 6–10 tekrar yapın.',warning:'Omuz veya bilek ağrısında durun.'}
+,{name:'Topuk yükseltme',emoji:'🦶',duration:'3–5 dk',level:'Hafif',steps:'Sabit bir destekten tutunarak topuklarınızı yavaşça kaldırıp indirin. 8–12 tekrar deneyin.',warning:'Tek taraflı yeni bacak şişliği veya ağrısı varsa egzersiz öncesi değerlendirme alın.'}
+,{name:'Kısa yürüyüş aralıkları',emoji:'🚶',duration:'15–25 dk',level:'Başlangıç',steps:'5 dakika rahat yürüyün, 1–2 dakika dinlenin; tolere ettiğiniz kadar tekrarlayın.',warning:'Göğüs ağrısı, bayılma hissi veya olağandışı nefes darlığında hemen durun.'}
+,{name:'Nazik göğüs açma',emoji:'🧍',duration:'3–5 dk',level:'Hafif',steps:'Omuzlarınızı gevşetip kürek kemiklerini hafifçe yaklaştırın; 5 saniye tutup bırakın.',warning:'Boyun veya omuzda keskin ağrıya neden olmayın.'}
+,{name:'Yerinde hafif adımlama',emoji:'👟',duration:'5–10 dk',level:'Başlangıç',steps:'Güvenli ve kaymayan zeminde yerinizde rahat tempoda adımlayın.',warning:'Denge sorunu olanlar destekle çalışmalıdır.'}
+
 ];
 export const sources=[{name:'Türkiye Beslenme Rehberi (TÜBER 2022)',url:'https://hsgm.saglik.gov.tr/',publisher:'T.C. Sağlık Bakanlığı'},{name:'Türkiye Fiziksel Aktivite Rehberi',url:'https://hsgm.saglik.gov.tr/',publisher:'T.C. Sağlık Bakanlığı'},{name:'TÜRKOMP – Ulusal Gıda Kompozisyon Veri Tabanı',url:'https://www.turkomp.gov.tr/',publisher:'TÜBİTAK / ilgili kurumlar'},{name:'WHO Healthy Diet',url:'https://www.who.int/news-room/fact-sheets/detail/healthy-diet',publisher:'Dünya Sağlık Örgütü'}];
 export const days=['Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi','Pazar'];
