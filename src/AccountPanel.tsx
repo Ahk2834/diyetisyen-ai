@@ -5,6 +5,8 @@ export function AccountPanel() {
   const [password,setPassword]=useState('');
   const [status,setStatus]=useState('');
   const [loading,setLoading]=useState(false);
+  const [showRegistration,setShowRegistration]=useState(false);
+  const [privacyConsent,setPrivacyConsent]=useState(false);
   async function signIn(event:React.FormEvent) {
     event.preventDefault();
     setLoading(true);
@@ -29,6 +31,12 @@ export function AccountPanel() {
       setLoading(false);
     }
   }
+  function registrationInfo(event:React.FormEvent) {
+    event.preventDefault();
+    setStatus(privacyConsent
+      ? 'Hesap oluşturma henüz etkin değil. Verileriniz gönderilmedi.'
+      : 'Devam etmek için gizlilik bilgilendirmesini okuyup onaylamalısınız.');
+  }
   return <section className="account-panel">
     <h2>Hesap girişi</h2>
     <p>Hesap hizmeti etkinleştirildiğinde e-posta adresinizle giriş yapabilirsiniz.</p>
@@ -39,5 +47,15 @@ export function AccountPanel() {
     </form>
     {status&&<p role="status">{status}</p>}
     <p>Sağlık profiliniz giriş isteğiyle paylaşılmaz.</p>
+    <button type="button" onClick={()=>{setShowRegistration(x=>!x);setStatus('');}}>
+      {showRegistration?'Kayıt bilgilendirmesini kapat':'Yeni hesap oluştur'}
+    </button>
+    {showRegistration&&<form onSubmit={registrationInfo}>
+      <h3>Yeni hesap</h3>
+      <p>Kayıt işlemi sunucuda henüz etkin değildir. Bu bölüm şu anda bilgilendirme amaçlıdır.</p>
+      <label><input type="checkbox" checked={privacyConsent} onChange={e=>setPrivacyConsent(e.target.checked)}/>
+        Hesap bilgilerimin işlenmesine ilişkin gizlilik bilgilendirmesini okudum.</label>
+      <button type="submit">Kayıt durumunu kontrol et</button>
+    </form>}
   </section>;
 }
