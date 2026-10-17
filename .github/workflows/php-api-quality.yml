@@ -40,3 +40,5 @@ jobs:
         run: php hosting/tests/auth_login_handler_test.php
       - name: Test registration validation and disabled persistence
         run: php hosting/tests/auth_registration_test.php
+      - name: Test email verification token rules
+        run: php hosting/tests/auth_email_verification_test.php
