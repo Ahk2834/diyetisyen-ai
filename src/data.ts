@@ -58,6 +58,17 @@ export const conditions=[
 {name:'Yüksek kolesterol',emoji:'🥑',text:'Doymuş yağın sınırlandırılması ve liften zengin beslenme genel olarak yararlıdır.'},
 {name:'Çölyak',emoji:'🌾',text:'Tanı doğrulandıktan sonra sıkı glutensiz beslenme gerektirir; çapraz bulaşma da önemlidir.'},
 {name:'Böbrek hastalıkları',emoji:'💧',text:'Protein, potasyum, sodyum ve sıvı gereksinimi hastalığın evresine göre değişir. Otomatik klinik diyet oluşturulmaz.'}
+
+,{name:'Koroner kalp hastalığı',emoji:'🫀',text:'Sebze, meyve, tam tahıl, baklagil ve doymamış yağ ağırlıklı beslenme kalp sağlığını destekler. Göğüs ağrısı veya yeni efor yakınmasında egzersiz önerisi yerine tıbbi değerlendirme gerekir.'}
+,{name:'Trigliserit yüksekliği',emoji:'🩸',text:'Şekerli içecekleri ve rafine karbonhidratları azaltmak, düzenli hareket etmek ve uygun kilo yönetimi trigliserit kontrolünü destekler. Çok yüksek değerler hekim değerlendirmesi gerektirir.'}
+,{name:'Reflü',emoji:'🍽️',text:'Büyük ve geç öğünlerden kaçınmak, kişisel tetikleyicileri belirlemek ve yemekten hemen sonra uzanmamak yardımcı olabilir. Yutma güçlüğü veya istemsiz kilo kaybı değerlendirilmelidir.'}
+,{name:'Kabızlık',emoji:'🌾',text:'Lifli besinleri kademeli artırmak, yeterli sıvı almak ve düzenli hareket etmek destekleyicidir. Ani başlangıç, kanama veya şiddetli ağrı varsa hekime başvurulmalıdır.'}
+,{name:'Demir eksikliği anemisi',emoji:'🩸',text:'Demir içeren et, baklagil ve yeşil yapraklı besinler yararlı olabilir; C vitamini bitkisel demir emilimini destekler. Takviye gereksinimi ve kan kaybı gibi nedenler hekim tarafından araştırılmalıdır.'}
+,{name:'İnsülin direnci',emoji:'🥗',text:'Düzenli öğünler, liften zengin beslenme, hareket ve sürdürülebilir kilo yönetimi metabolik sağlığı destekleyebilir. Tek başına insülin direnci etiketiyle otomatik tedavi diyeti verilmez.'}
+,{name:'Gut hastalığı',emoji:'💧',text:'Yeterli sıvı, kilo yönetimi ve şekerli içeceklerin sınırlandırılması yararlı olabilir. Pürin kısıtlaması ve ilaç tedavisi kişiye göre düzenlenir; akut atakta hekim görüşü gerekir.'}
+,{name:'Osteoporoz',emoji:'🦴',text:'Yeterli kalsiyum ve D vitamini alımı ile güvenli direnç ve denge çalışmaları kemik sağlığını destekler. Kırık riski olanlar hareket seçimini uzmanla belirlemelidir.'}
+,{name:'Tiroid hastalıkları',emoji:'🦋',text:'Tiroid hastalıklarında tek tip özel diyet yoktur. İyot ve takviyelerin gereksiz yüksek dozları zararlı olabilir; ilaç-besin etkileşimleri için sağlık uzmanına danışılmalıdır.'}
+
 ];
 export const exercises=[
 {name:'Rahat tempolu yürüyüş',emoji:'🚶',duration:'10–20 dk',level:'Başlangıç',steps:'Düz zeminde rahat bir tempoyla yürüyün. Gerektiğinde kısa molalar verin.',warning:'Göğüs ağrısı, baş dönmesi veya belirgin nefes darlığında durun.'},
