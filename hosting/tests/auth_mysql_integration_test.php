@@ -2,6 +2,7 @@
 declare(strict_types=1);
 require __DIR__ . '/../private/auth_email_verification_db.php';
 require __DIR__ . '/../private/auth_login_service.php';
+require __DIR__ . '/../private/auth_pending_registration.php';
 $dsn = getenv('AUTH_TEST_MYSQL_DSN');
 if (!$dsn) { fwrite(STDERR, "Missing test-only MySQL DSN\n"); exit(1); }
 $pdo = new PDO($dsn, getenv('AUTH_TEST_MYSQL_USER') ?: '', getenv('AUTH_TEST_MYSQL_PASSWORD') ?: '', [
@@ -19,13 +20,12 @@ foreach (['001_auth_schema.sql','003_email_verification.sql','004_pending_accoun
     }
 }
 $address = 'ci-' . bin2hex(random_bytes(8)) . '@example.invalid';
-$stmt = $pdo->prepare('INSERT INTO app_users (email, password_hash) VALUES (?, ?)');
-$stmt->execute([$address, password_hash('IntegrationTestPassword2026!', PASSWORD_DEFAULT)]);
-$userId = (int)$pdo->lastInsertId();
+$created = auth_create_pending_account($pdo, $address, 'IntegrationTestPassword2026!');
+$userId = $created['user_id'];
 $check = $pdo->prepare('SELECT status FROM app_users WHERE id = ?');
 $check->execute([$userId]);
 if ($check->fetchColumn() !== 'pending') throw new RuntimeException('New account must be pending');
-$token = auth_issue_email_verification($pdo, $userId);
+$token = $created['verification_token'];
 if (!auth_consume_email_verification($pdo, $token)) throw new RuntimeException('First verification failed');
 if (auth_consume_email_verification($pdo, $token)) throw new RuntimeException('Replay was accepted');
 $check->execute([$userId]);
