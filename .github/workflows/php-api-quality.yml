@@ -1,0 +1,28 @@
+name: PHP API Quality Checks
+on:
+  push:
+    branches: [full-v1-development]
+    paths:
+      - 'hosting/**'
+      - '.github/workflows/php-api-quality.yml'
+  pull_request:
+    branches: [main, full-v1-development]
+    paths:
+      - 'hosting/**'
+      - '.github/workflows/php-api-quality.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  php-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check PHP syntax
+        run: |
+          php -v
+          find hosting -type f -name '*.php' -print0 | xargs -0 -r -n1 php -l
+      - name: Verify auth stays disabled by default
+        run: |
+          grep -q 'registration_not_enabled' hosting/api/auth.php
+          grep -q 'login_not_enabled' hosting/api/auth.php
