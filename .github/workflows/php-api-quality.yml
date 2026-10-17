@@ -44,3 +44,5 @@ jobs:
         run: php hosting/tests/auth_email_verification_test.php
       - name: Test email verification database guards
         run: php hosting/tests/auth_email_verification_db_test.php
+      - name: Check SQL and PHP authentication schema contract
+        run: php hosting/tests/auth_schema_contract_test.php
