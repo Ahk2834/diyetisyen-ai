@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import {useState} from 'react';
 const foods=[['Elma',52],['Muz',89],['Armut',57],['Portakal',47],['Çilek',32],['Domates',18],['Salatalık',15],['Havuç',41],['Kabak',17],['Brokoli',34],['Patates (haşlanmış)',87],['Pirinç (pişmiş)',130],['Bulgur (pişmiş)',83],['Mercimek (haşlanmış)',116],['Nohut (haşlanmış)',164],['Yumurta (haşlanmış)',155],['Tavuk göğsü (pişmiş)',165],['Yoğurt (sade)',61],['Mercimek çorbası (örnek)',75],['Menemen (örnek)',110],['Kuru fasulye yemeği (örnek)',140],['Sebze yemeği (örnek)',90]] as const;
 export function FoodCalculator(){
  const [food,setFood]=useState<string>(foods[0][0]);
