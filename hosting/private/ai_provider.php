@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 /** Gemini generateContent adapter; credentials are supplied only by private settings. */
-function dietai_provider_answer(string $message,array $settings): array {
+function dietai_provider_answer(string $message,array $settings,array $history=[]): array {
     if (($settings['enabled'] ?? false)!==true) return ['ok'=>false,'error'=>'ai_not_configured'];
     $key=$settings['api_key'] ?? null;
     $model=$settings['model'] ?? null;
@@ -11,10 +11,15 @@ function dietai_provider_answer(string $message,array $settings): array {
     }
     if (!function_exists('curl_init')) return ['ok'=>false,'error'=>'provider_unavailable'];
     $url='https://generativelanguage.googleapis.com/v1beta/models/'.rawurlencode($model).':generateContent';
+    $contents=[];
+    foreach ($history as $turn) {
+        $contents[]=['role'=>$turn['role'],'parts'=>[['text'=>$turn['text']]]];
+    }
+    $contents[]=['role'=>'user','parts'=>[['text'=>$message]]];
     $payload=json_encode([
       'systemInstruction'=>['parts'=>[['text'=>'Türkçe ve kısa yanıt ver. Yalnızca genel beslenme ve sağlıklı yaşam eğitimi sun. Tanı koyma, ilaç veya takviye dozu önerme, kişiye özel klinik diyet veya tedavi yazma. Acil belirtilerde acil sağlık hizmetine yönlendir.']]],
-      'contents'=>[['role'=>'user','parts'=>[['text'=>$message]]]],
-      'generationConfig'=>['maxOutputTokens'=>500,'temperature'=>0.3]
+      'contents'=>$contents,
+      'generationConfig'=>['maxOutputTokens'=>2048,'temperature'=>0.3]
     ],JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
     if (!is_string($payload))return ['ok'=>false,'error'=>'provider_unavailable'];
     $ch=curl_init($url);
