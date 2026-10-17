@@ -28,3 +28,5 @@ jobs:
           grep -q 'login_not_enabled' hosting/api/auth.php
       - name: Test authentication password primitives
         run: php hosting/tests/auth_core_test.php
+      - name: Test secure cookie and origin policy
+        run: php hosting/tests/auth_http_test.php
