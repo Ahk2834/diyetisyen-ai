@@ -34,7 +34,20 @@ $message = is_array($data) ? ($data['message'] ?? null) : null;
 if (!is_string($message) || trim($message)==='' || mb_strlen($message)>1200) {
     ai_reply(400,['error'=>'invalid_message']);
 }
-// No provider credentials or private health profiles are accepted by this endpoint.
-// Provider integration remains disabled until rate limits and server-side
-// credential management have been reviewed.
-ai_reply(503,['error'=>'ai_not_configured']);
+// Load secrets exclusively from a private directory outside public_html.
+$private=dirname(__DIR__,3).'/diyetai_private';
+$settingsPath=$private.'/ai_settings.php';
+if (!is_file($settingsPath)) ai_reply(503,['error'=>'ai_not_configured']);
+$settings=require $settingsPath;
+if (!is_array($settings)||($settings['enabled'] ?? false)!==true) ai_reply(503,['error'=>'ai_not_configured']);
+require_once __DIR__.'/../private/ai_rate_limit.php';
+require_once __DIR__.'/../private/ai_provider.php';
+$client=$_SERVER['REMOTE_ADDR'] ?? '';
+$secret=$settings['rate_limit_secret'] ?? '';
+if (!is_string($client)||!is_string($secret)||
+    !dietai_ai_allow_request($client,$secret,$private.'/ai_rate_limits',time())) {
+    ai_reply(429,['error'=>'rate_limited']);
+}
+$result=dietai_provider_answer(trim($message),$settings);
+if (($result['ok'] ?? false)!==true) ai_reply(503,['error'=>'provider_unavailable']);
+ai_reply(200,['answer'=>$result['answer']]);
