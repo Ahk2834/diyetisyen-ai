@@ -1,4 +1,5 @@
 Options -Indexes
-<FilesMatch "^(?!health\.php$).+\.php$">
+
+<FilesMatch "^(?!health[.]php$|auth[.]php$).+[.]php$">
   Require all denied
 </FilesMatch>
