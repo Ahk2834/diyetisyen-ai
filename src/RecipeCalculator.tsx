@@ -8,6 +8,8 @@ export function RecipeCalculator({foods}:{foods:Food[]}){
  const [recipeName,setRecipeName]=useState('');
  const [servings,setServings]=useState('4');
  const [cookedWeight,setCookedWeight]=useState('');
+ const [preset,setPreset]=useState('');
+ const loadPreset=()=>{const t=recipeTemplates.find(x=>x.name===preset);if(!t)return;const found=t.ingredients.filter(x=>foods.some(f=>f.name===x.food));if(!found.length)return;setIngredients(found.map((x,i)=>({id:i+1,food:x.food,grams:String(x.grams)})));setNextId(found.length+1);setRecipeName(t.name);setServings(String(t.servings));setCookedWeight('');};
  const sorted=[...foods].sort((a,b)=>a.name.localeCompare(b.name,'tr-TR'));
  const update=(id:number,patch:Partial<Ingredient>)=>setIngredients(rows=>rows.map(row=>row.id===id?{...row,...patch}:row));
  const rows=ingredients.map(row=>({...row,selected:foods.find(f=>f.name===row.food),amount:Number(row.grams)}));
