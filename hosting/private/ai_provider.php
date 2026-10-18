@@ -22,17 +22,26 @@ function dietai_provider_answer(string $message,array $settings,array $history=[
       'generationConfig'=>['maxOutputTokens'=>2048,'temperature'=>0.3]
     ],JSON_UNESCAPED_UNICODE|JSON_UNESCAPED_SLASHES);
     if (!is_string($payload))return ['ok'=>false,'error'=>'provider_unavailable'];
-    $ch=curl_init($url);
-    curl_setopt_array($ch,[
-      CURLOPT_POST=>true,CURLOPT_POSTFIELDS=>$payload,
-      CURLOPT_HTTPHEADER=>['Content-Type: application/json','x-goog-api-key: '.$key],
-      CURLOPT_RETURNTRANSFER=>true,CURLOPT_CONNECTTIMEOUT=>5,CURLOPT_TIMEOUT=>20,
-      CURLOPT_FOLLOWLOCATION=>false,CURLOPT_SSL_VERIFYPEER=>true,CURLOPT_SSL_VERIFYHOST=>2,
-      CURLOPT_PROTOCOLS=>CURLPROTO_HTTPS,
-    ]);
-    $response=curl_exec($ch);
-    $status=(int)curl_getinfo($ch,CURLINFO_RESPONSE_CODE);
-    curl_close($ch);
+    // Retry only transient upstream 503; never retry 400/401/403/404/429.
+    // Two 12-second attempts plus a 1-second pause fit typical PHP limits.
+    $response=false;
+    $status=0;
+    for ($attempt=0; $attempt<2; $attempt++) {
+        $ch=curl_init($url);
+        if ($ch===false) return ['ok'=>false,'error'=>'provider_unavailable'];
+        curl_setopt_array($ch,[
+          CURLOPT_POST=>true,CURLOPT_POSTFIELDS=>$payload,
+          CURLOPT_HTTPHEADER=>['Content-Type: application/json','x-goog-api-key: '.$key],
+          CURLOPT_RETURNTRANSFER=>true,CURLOPT_CONNECTTIMEOUT=>4,CURLOPT_TIMEOUT=>12,
+          CURLOPT_FOLLOWLOCATION=>false,CURLOPT_SSL_VERIFYPEER=>true,CURLOPT_SSL_VERIFYHOST=>2,
+          CURLOPT_PROTOCOLS=>CURLPROTO_HTTPS,
+        ]);
+        $response=curl_exec($ch);
+        $status=(int)curl_getinfo($ch,CURLINFO_RESPONSE_CODE);
+        curl_close($ch);
+        if ($status!==503 || $attempt===1) break;
+        sleep(1);
+    }
     if (!is_string($response)||$status!==200||strlen($response)>50000)
         return ['ok'=>false,'error'=>'provider_unavailable'];
     $decoded=json_decode($response,true);
