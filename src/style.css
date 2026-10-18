@@ -3,3 +3,5 @@
 
 /* Exercise category selector */
 .exercise-filters{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 22px}.exercise-filters button{border:1px solid #d8e8dd;background:#fff;color:#547264;border-radius:999px;padding:10px 15px;font-size:12px;font-weight:800}.exercise-filters button.selected{background:#0d946c;border-color:#0d946c;color:#fff}.exercise-filters button:focus-visible{outline:3px solid #81d8bb;outline-offset:2px}
+
+.exercise-source{display:block;color:#08795d;font-size:11px;font-weight:800;line-height:1.5;margin:8px 0 12px;text-decoration:underline;text-underline-offset:3px}.exercise-source:focus-visible{outline:2px solid #0d946c;outline-offset:3px}
