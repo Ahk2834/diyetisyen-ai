@@ -1123,7 +1123,7 @@ export const recipeTemplates:RecipeTemplate[]=[
     "servings": 8,
     "ingredients": [
       {
-        "food": "Haşlanmış aşurelik buğday (yaklaşık)",
+        "food": "Haşlanmış aşurelik buğday",
         "grams": 300
       },
       {
