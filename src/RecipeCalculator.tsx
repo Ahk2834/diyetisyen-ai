@@ -1,4 +1,5 @@
 import {useState} from 'react';
+import {recipeTemplates} from './recipeTemplates';
 import type {Food} from './FoodCalculator';
 type Ingredient={id:number;food:string;grams:string};
 export function RecipeCalculator({foods}:{foods:Food[]}){
