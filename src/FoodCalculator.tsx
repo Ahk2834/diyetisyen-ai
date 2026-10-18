@@ -1,6 +1,7 @@
+import {RecipeCalculator} from './RecipeCalculator';
 import {useState} from 'react';
-type Food={name:string;category:string;kcal:number;protein?:number;carbs?:number;fat?:number;fiber?:number;source?:string};
-const foods:Food[]=[
+export type Food={name:string;category:string;kcal:number;protein?:number;carbs?:number;fat?:number;fiber?:number;source?:string};
+export const foods:Food[]=[
 {name:'Mezgit (çiğ)',category:'Balık',kcal:70,protein:15.27,carbs:0,fat:.97,source:'https://turkomp.tarimorman.gov.tr/food-mezgit-90'},
 {name:'Hamsi (çiğ)',category:'Balık',kcal:197,protein:16.95,carbs:0,fat:14.36,source:'https://turkomp.tarimorman.gov.tr/food-hamsi-81'},
 {name:'Süt (UHT, yağsız)',category:'Süt ürünleri',kcal:34,protein:2.81,carbs:5.52,fat:.11,source:'https://turkomp.tarimorman.gov.tr/food-sut-inek-uht-yagsiz-100-ml-de-1-5-g-dan-az-sut-yagi-20'},
@@ -290,6 +291,7 @@ export function FoodCalculator(){
     </>})():<p className="foodcalc-error">Hesaplama için listeden besin seçin ve 1–5000 gram arasında bir miktar girin.</p>}
    </div>
   </div>
+  <RecipeCalculator foods={foods}/>
   <div className="foodcalc-guidance"><strong>Kaynak ve kullanım bilgisi</strong><p>Sağlıklı beslenme yaklaşımında Sağlık Bakanlığı Türkiye Beslenme Rehberi (TÜBER 2022) dikkate alınmıştır. TÜRKOMP kaynaklı bazı kayıtlar ayrıca işaretlenmiştir. TÜRKOMP verilerinin yeniden kullanımı kendi kullanım koşullarına tabidir. Diğer değerler yaklaşık örnektir; pişirme yağı, tarif, marka ve porsiyon farklılıkları sonucu değiştirir.</p><a href="https://hsgm.saglik.gov.tr/depo/birimler/saglikli-beslenme-ve-hareketli-hayat-db/Dokumanlar/Rehberler/Turkiye_Beslenme_Rehber_TUBER_2022_min.pdf" target="_blank" rel="noopener noreferrer">TÜBER 2022 rehberini aç ↗</a></div>
  </section>;
 }
