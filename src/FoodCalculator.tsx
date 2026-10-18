@@ -129,7 +129,67 @@ const foods:Food[]=[
 {name:"Kabak çekirdeği (yaklaşık)",category:"Kuruyemişler",kcal:559},
 {name:"Ay çekirdeği (yaklaşık)",category:"Kuruyemişler",kcal:584},
 {name:"Kuru üzüm (yaklaşık)",category:"Kuruyemişler",kcal:299},
-{name:"Kuru kayısı (yaklaşık)",category:"Kuruyemişler",kcal:241}
+{name:"Kuru kayısı (yaklaşık)",category:"Kuruyemişler",kcal:241},
+{name:"Arabaşı çorbası (yaklaşık)",category:"Yöresel çorbalar",kcal:95},
+{name:"Beyran çorbası (yaklaşık)",category:"Yöresel çorbalar",kcal:120},
+{name:"Analı kızlı çorbası (yaklaşık)",category:"Yöresel çorbalar",kcal:115},
+{name:"Yuvalama çorbası (yaklaşık)",category:"Yöresel çorbalar",kcal:125},
+{name:"Lebeniye çorbası (yaklaşık)",category:"Yöresel çorbalar",kcal:95},
+{name:"Toyga çorbası (yaklaşık)",category:"Yöresel çorbalar",kcal:65},
+{name:"Ayran aşı çorbası (yaklaşık)",category:"Yöresel çorbalar",kcal:65},
+{name:"Tutmaç çorbası (yaklaşık)",category:"Yöresel çorbalar",kcal:105},
+{name:"Kesme aşı çorbası (yaklaşık)",category:"Yöresel çorbalar",kcal:95},
+{name:"Mahluta çorbası (yaklaşık)",category:"Yöresel çorbalar",kcal:80},
+{name:"Bamya çorbası (yaklaşık)",category:"Yöresel çorbalar",kcal:75},
+{name:"Kelle paça çorbası (yaklaşık)",category:"Yöresel çorbalar",kcal:130},
+{name:"Zeytinyağlı pırasa (yaklaşık)",category:"Zeytinyağlılar",kcal:85},
+{name:"Zeytinyağlı kereviz (yaklaşık)",category:"Zeytinyağlılar",kcal:90},
+{name:"Zeytinyağlı barbunya (yaklaşık)",category:"Zeytinyağlılar",kcal:135},
+{name:"Zeytinyağlı bakla (yaklaşık)",category:"Zeytinyağlılar",kcal:100},
+{name:"Zeytinyağlı kabak (yaklaşık)",category:"Zeytinyağlılar",kcal:80},
+{name:"Zeytinyağlı börülce (yaklaşık)",category:"Zeytinyağlılar",kcal:110},
+{name:"Zeytinyağlı yer elması (yaklaşık)",category:"Zeytinyağlılar",kcal:95},
+{name:"Zeytinyağlı pazı sarma (yaklaşık)",category:"Zeytinyağlılar",kcal:145},
+{name:"Fava (yaklaşık)",category:"Zeytinyağlılar",kcal:145},
+{name:"Şakşuka (yaklaşık)",category:"Zeytinyağlılar",kcal:135},
+{name:"Hünkar beğendi (yaklaşık)",category:"Yöresel et yemekleri",kcal:205},
+{name:"Ali nazik kebabı (yaklaşık)",category:"Yöresel et yemekleri",kcal:190},
+{name:"Testi kebabı (yaklaşık)",category:"Yöresel et yemekleri",kcal:170},
+{name:"Çökertme kebabı (yaklaşık)",category:"Yöresel et yemekleri",kcal:235},
+{name:"Cağ kebabı (yaklaşık)",category:"Yöresel et yemekleri",kcal:260},
+{name:"Büryan kebabı (yaklaşık)",category:"Yöresel et yemekleri",kcal:275},
+{name:"Tandır kebabı (yaklaşık)",category:"Yöresel et yemekleri",kcal:250},
+{name:"İslim kebabı (yaklaşık)",category:"Yöresel et yemekleri",kcal:180},
+{name:"Tepsi kebabı (yaklaşık)",category:"Yöresel et yemekleri",kcal:225},
+{name:"Sac kavurma (yaklaşık)",category:"Yöresel et yemekleri",kcal:230},
+{name:"İçli köfte (haşlanmış) (yaklaşık)",category:"Yöresel et yemekleri",kcal:195},
+{name:"İçli köfte (kızarmış) (yaklaşık)",category:"Yöresel et yemekleri",kcal:275},
+{name:"Ekşili köfte (yaklaşık)",category:"Yöresel et yemekleri",kcal:140},
+{name:"Sulu köfte (yaklaşık)",category:"Yöresel et yemekleri",kcal:135},
+{name:"İzmir köfte (yaklaşık)",category:"Yöresel et yemekleri",kcal:170},
+{name:"Hamsi tava (yaklaşık)",category:"Balık ve deniz ürünleri",kcal:220},
+{name:"Hamsi buğulama (yaklaşık)",category:"Balık ve deniz ürünleri",kcal:125},
+{name:"Hamsili pilav (yaklaşık)",category:"Balık ve deniz ürünleri",kcal:175},
+{name:"Palamut ızgara (yaklaşık)",category:"Balık ve deniz ürünleri",kcal:175},
+{name:"Levrek ızgara (yaklaşık)",category:"Balık ve deniz ürünleri",kcal:125},
+{name:"Çipura ızgara (yaklaşık)",category:"Balık ve deniz ürünleri",kcal:145},
+{name:"Alabalık fırında (yaklaşık)",category:"Balık ve deniz ürünleri",kcal:150},
+{name:"Sardalya ızgara (yaklaşık)",category:"Balık ve deniz ürünleri",kcal:190},
+{name:"İstavrit tava (yaklaşık)",category:"Balık ve deniz ürünleri",kcal:215},
+{name:"Karides güveç (yaklaşık)",category:"Balık ve deniz ürünleri",kcal:125},
+{name:"Midye dolma (yaklaşık)",category:"Balık ve deniz ürünleri",kcal:170},
+{name:"Künefe (yaklaşık)",category:"Geleneksel tatlılar",kcal:355},
+{name:"Tel kadayıf (yaklaşık)",category:"Geleneksel tatlılar",kcal:380},
+{name:"Ekmek kadayıfı (yaklaşık)",category:"Geleneksel tatlılar",kcal:320},
+{name:"Kemalpaşa tatlısı (yaklaşık)",category:"Geleneksel tatlılar",kcal:290},
+{name:"Lokma tatlısı (yaklaşık)",category:"Geleneksel tatlılar",kcal:370},
+{name:"Tulumba tatlısı (yaklaşık)",category:"Geleneksel tatlılar",kcal:390},
+{name:"Şekerpare (yaklaşık)",category:"Geleneksel tatlılar",kcal:365},
+{name:"Kalburabastı (yaklaşık)",category:"Geleneksel tatlılar",kcal:380},
+{name:"Höşmerim (yaklaşık)",category:"Geleneksel tatlılar",kcal:310},
+{name:"Zerde (yaklaşık)",category:"Geleneksel tatlılar",kcal:145},
+{name:"Fırın sütlaç (yaklaşık)",category:"Geleneksel tatlılar",kcal:150},
+{name:"Cezerye (yaklaşık)",category:"Geleneksel tatlılar",kcal:340}
 ];
 const format=(n:number)=>n.toLocaleString('tr-TR',{maximumFractionDigits:1});
 export function FoodCalculator(){
@@ -137,8 +197,8 @@ export function FoodCalculator(){
  const [grams,setGrams]=useState('');
  const [query,setQuery]=useState('');
  const [category,setCategory]=useState('');
- const categories=['', 'Tümü',...Array.from(new Set(foods.map(f=>f.category)))];
- const filtered=foods.filter(f=>(category===''||category==='Tümü'||f.category===category)&&f.name.toLocaleLowerCase('tr-TR').includes(query.trim().toLocaleLowerCase('tr-TR')));
+ const categories=['', 'Tümü',...Array.from(new Set(foods.map(f=>f.category))).sort((a,b)=>a.localeCompare(b,'tr-TR'))];
+ const filtered=foods.filter(f=>(category===''||category==='Tümü'||f.category===category)&&f.name.toLocaleLowerCase('tr-TR').includes(query.trim().toLocaleLowerCase('tr-TR'))).sort((a,b)=>a.name.localeCompare(b.name,'tr-TR'));
  const selected=foods.find(f=>f.name===food);
  const amount=Number(grams);
  const valid=grams.trim()!==''&&Number.isFinite(amount)&&amount>0&&amount<=5000;
@@ -149,7 +209,7 @@ export function FoodCalculator(){
    <div className="foodcalc-form">
     <label htmlFor="foodcalc-search">1. Besin ara</label><input id="foodcalc-search" type="search" value={query} onChange={e=>setQuery(e.target.value)} placeholder="Örn. muz, mercimek, balık"/>
     <label htmlFor="foodcalc-category">Besin grubu</label><select id="foodcalc-category" value={category} onChange={e=>setCategory(e.target.value)}>{categories.map(c=><option key={c} value={c}>{c||'Besin grubu seçin (isteğe bağlı)'}</option>)}</select>
-    <label htmlFor="foodcalc-food">2. Besin seç</label><select id="foodcalc-food" value={filtered.some(f=>f.name===food)?food:''} disabled={filtered.length===0} onChange={e=>setFood(e.target.value)}><option value="">Besin seçiniz...</option>{filtered.map(f=><option key={f.name} value={f.name}>{f.name}</option>)}</select>
+    <label htmlFor="foodcalc-food">2. Besin seç ({filtered.length} seçenek)</label><select id="foodcalc-food" value={filtered.some(f=>f.name===food)?food:''} disabled={filtered.length===0} onChange={e=>setFood(e.target.value)}><option value="">Besin seçiniz...</option>{filtered.map(f=><option key={f.name} value={f.name}>{f.name}</option>)}</select>
     {filtered.length===0&&<p className="foodcalc-error">Bu aramada besin bulunamadı. Arama sözcüğünü veya grubu değiştirin.</p>}
     <label htmlFor="foodcalc-grams">3. Tüketilen miktar (gram)</label><input id="foodcalc-grams" type="number" min="1" max="5000" step="1" value={grams} onChange={e=>setGrams(e.target.value)} aria-invalid={!valid}/>
     <div className="foodcalc-quick" aria-label="Hızlı miktar seçimi">{[50,100,150,200,250].map(g=><button type="button" className={amount===g?'active':''} key={g} onClick={()=>setGrams(String(g))}>{g} g</button>)}</div>
