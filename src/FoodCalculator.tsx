@@ -10,16 +10,135 @@ const foods:Food[]=[
 {name:'Domates',category:'Sebzeler',kcal:18},{name:'Salatalık',category:'Sebzeler',kcal:15},{name:'Havuç',category:'Sebzeler',kcal:41},{name:'Kabak',category:'Sebzeler',kcal:17},{name:'Brokoli',category:'Sebzeler',kcal:34},
 {name:'Patates (haşlanmış)',category:'Tahıl ve baklagiller',kcal:87},{name:'Pirinç (pişmiş)',category:'Tahıl ve baklagiller',kcal:130},{name:'Bulgur (pişmiş)',category:'Tahıl ve baklagiller',kcal:83},{name:'Mercimek (haşlanmış)',category:'Tahıl ve baklagiller',kcal:116},{name:'Nohut (haşlanmış)',category:'Tahıl ve baklagiller',kcal:164},
 {name:'Yumurta (haşlanmış)',category:'Diğer',kcal:155},{name:'Tavuk göğsü (pişmiş)',category:'Diğer',kcal:165},{name:'Yoğurt (sade)',category:'Süt ürünleri',kcal:61},
-{name:'Mercimek çorbası (örnek)',category:'Ev yemekleri',kcal:75},{name:'Menemen (örnek)',category:'Ev yemekleri',kcal:110},{name:'Kuru fasulye yemeği (örnek)',category:'Ev yemekleri',kcal:140},{name:'Sebze yemeği (örnek)',category:'Ev yemekleri',kcal:90}
+{name:'Mercimek çorbası (örnek)',category:'Ev yemekleri',kcal:75},{name:'Menemen (örnek)',category:'Ev yemekleri',kcal:110},{name:'Kuru fasulye yemeği (örnek)',category:'Ev yemekleri',kcal:140},{name:'Sebze yemeği (örnek)',category:'Ev yemekleri',kcal:90},
+{name:"Ezogelin çorbası (yaklaşık)",category:"Çorbalar",kcal:65},
+{name:"Yayla çorbası (yaklaşık)",category:"Çorbalar",kcal:60},
+{name:"Tarhana çorbası (yaklaşık)",category:"Çorbalar",kcal:65},
+{name:"Domates çorbası (yaklaşık)",category:"Çorbalar",kcal:50},
+{name:"Tavuk suyu çorbası (yaklaşık)",category:"Çorbalar",kcal:55},
+{name:"İşkembe çorbası (yaklaşık)",category:"Çorbalar",kcal:85},
+{name:"Düğün çorbası (yaklaşık)",category:"Çorbalar",kcal:90},
+{name:"Etli kuru fasulye (yaklaşık)",category:"Ev yemekleri",kcal:145},
+{name:"Zeytinyağlı taze fasulye (yaklaşık)",category:"Ev yemekleri",kcal:80},
+{name:"Etli nohut (yaklaşık)",category:"Ev yemekleri",kcal:155},
+{name:"Karnıyarık (yaklaşık)",category:"Ev yemekleri",kcal:145},
+{name:"İmam bayıldı (yaklaşık)",category:"Ev yemekleri",kcal:110},
+{name:"Türlü (yaklaşık)",category:"Ev yemekleri",kcal:85},
+{name:"Etli bezelye (yaklaşık)",category:"Ev yemekleri",kcal:115},
+{name:"Kapuska (yaklaşık)",category:"Ev yemekleri",kcal:70},
+{name:"Kıymalı ıspanak (yaklaşık)",category:"Ev yemekleri",kcal:100},
+{name:"Etli bamya (yaklaşık)",category:"Ev yemekleri",kcal:90},
+{name:"Zeytinyağlı enginar (yaklaşık)",category:"Ev yemekleri",kcal:105},
+{name:"Kabak dolması (yaklaşık)",category:"Ev yemekleri",kcal:105},
+{name:"Biber dolması (yaklaşık)",category:"Ev yemekleri",kcal:135},
+{name:"Yaprak sarma (zeytinyağlı) (yaklaşık)",category:"Ev yemekleri",kcal:165},
+{name:"Etli lahana sarması (yaklaşık)",category:"Ev yemekleri",kcal:130},
+{name:"Patlıcan musakka (yaklaşık)",category:"Ev yemekleri",kcal:150},
+{name:"Tas kebabı (yaklaşık)",category:"Ev yemekleri",kcal:170},
+{name:"Orman kebabı (yaklaşık)",category:"Ev yemekleri",kcal:145},
+{name:"Etli türlü (yaklaşık)",category:"Ev yemekleri",kcal:120},
+{name:"Tavuk sote (yaklaşık)",category:"Ev yemekleri",kcal:135},
+{name:"Pirinç pilavı (yağlı) (yaklaşık)",category:"Pilav ve makarna",kcal:175},
+{name:"Bulgur pilavı (sebzeli) (yaklaşık)",category:"Pilav ve makarna",kcal:125},
+{name:"Şehriye pilavı (yaklaşık)",category:"Pilav ve makarna",kcal:170},
+{name:"Erişte (pişmiş) (yaklaşık)",category:"Pilav ve makarna",kcal:155},
+{name:"Mantı (yoğurtsuz) (yaklaşık)",category:"Pilav ve makarna",kcal:190},
+{name:"Fırın makarna (yaklaşık)",category:"Pilav ve makarna",kcal:185},
+{name:"İç pilav (yaklaşık)",category:"Pilav ve makarna",kcal:190},
+{name:"Keşkek (yaklaşık)",category:"Pilav ve makarna",kcal:145},
+{name:"Beyaz peynir (yaklaşık)",category:"Kahvaltılıklar",kcal:260},
+{name:"Lor peyniri (yaklaşık)",category:"Kahvaltılıklar",kcal:95},
+{name:"Kaşar peyniri (yaklaşık)",category:"Kahvaltılıklar",kcal:350},
+{name:"Siyah zeytin (yaklaşık)",category:"Kahvaltılıklar",kcal:145},
+{name:"Yeşil zeytin (yaklaşık)",category:"Kahvaltılıklar",kcal:145},
+{name:"Simit (yaklaşık)",category:"Kahvaltılıklar",kcal:340},
+{name:"Bazlama (yaklaşık)",category:"Kahvaltılıklar",kcal:265},
+{name:"Tam buğday ekmeği (yaklaşık)",category:"Kahvaltılıklar",kcal:245},
+{name:"Beyaz ekmek (yaklaşık)",category:"Kahvaltılıklar",kcal:265},
+{name:"Pekmez (yaklaşık)",category:"Kahvaltılıklar",kcal:290},
+{name:"Tahin (yaklaşık)",category:"Kahvaltılıklar",kcal:595},
+{name:"Kaymak (yaklaşık)",category:"Kahvaltılıklar",kcal:580},
+{name:"Sucuklu yumurta (yaklaşık)",category:"Kahvaltılıklar",kcal:230},
+{name:"Peynirli omlet (yaklaşık)",category:"Kahvaltılıklar",kcal:190},
+{name:"Patatesli yumurta (yaklaşık)",category:"Kahvaltılıklar",kcal:165},
+{name:"Su böreği (yaklaşık)",category:"Hamur işleri",kcal:310},
+{name:"Peynirli börek (yaklaşık)",category:"Hamur işleri",kcal:300},
+{name:"Ispanaklı börek (yaklaşık)",category:"Hamur işleri",kcal:260},
+{name:"Gözleme (peynirli) (yaklaşık)",category:"Hamur işleri",kcal:285},
+{name:"Lahmacun (yaklaşık)",category:"Hamur işleri",kcal:230},
+{name:"Pide (kıymalı) (yaklaşık)",category:"Hamur işleri",kcal:270},
+{name:"Poğaça (peynirli) (yaklaşık)",category:"Hamur işleri",kcal:330},
+{name:"Açma (yaklaşık)",category:"Hamur işleri",kcal:350},
+{name:"Katmer (yaklaşık)",category:"Hamur işleri",kcal:390},
+{name:"Izgara köfte (yaklaşık)",category:"Et ve tavuk",kcal:240},
+{name:"Izgara tavuk şiş (yaklaşık)",category:"Et ve tavuk",kcal:165},
+{name:"Et döner (yaklaşık)",category:"Et ve tavuk",kcal:250},
+{name:"Tavuk döner (yaklaşık)",category:"Et ve tavuk",kcal:195},
+{name:"Adana kebap (yaklaşık)",category:"Et ve tavuk",kcal:265},
+{name:"İskender kebap (yaklaşık)",category:"Et ve tavuk",kcal:235},
+{name:"Kuzu haşlama (yaklaşık)",category:"Et ve tavuk",kcal:185},
+{name:"Tavuk haşlama (yaklaşık)",category:"Et ve tavuk",kcal:150},
+{name:"Çoban salata (yağsız) (yaklaşık)",category:"Salata ve mezeler",kcal:25},
+{name:"Mevsim salata (yağsız) (yaklaşık)",category:"Salata ve mezeler",kcal:20},
+{name:"Kısır (yaklaşık)",category:"Salata ve mezeler",kcal:180},
+{name:"Mercimek köftesi (yaklaşık)",category:"Salata ve mezeler",kcal:180},
+{name:"Patates salatası (yaklaşık)",category:"Salata ve mezeler",kcal:130},
+{name:"Cacık (yaklaşık)",category:"Salata ve mezeler",kcal:50},
+{name:"Haydari (yaklaşık)",category:"Salata ve mezeler",kcal:125},
+{name:"Humus (yaklaşık)",category:"Salata ve mezeler",kcal:175},
+{name:"Acılı ezme (yaklaşık)",category:"Salata ve mezeler",kcal:55},
+{name:"Piyaz (yaklaşık)",category:"Salata ve mezeler",kcal:140},
+{name:"Sütlaç (yaklaşık)",category:"Tatlılar",kcal:130},
+{name:"Kazandibi (yaklaşık)",category:"Tatlılar",kcal:155},
+{name:"Tavukgöğsü tatlısı (yaklaşık)",category:"Tatlılar",kcal:145},
+{name:"Aşure (yaklaşık)",category:"Tatlılar",kcal:140},
+{name:"Güllaç (yaklaşık)",category:"Tatlılar",kcal:160},
+{name:"İrmik helvası (yaklaşık)",category:"Tatlılar",kcal:300},
+{name:"Un helvası (yaklaşık)",category:"Tatlılar",kcal:340},
+{name:"Baklava (yaklaşık)",category:"Tatlılar",kcal:430},
+{name:"Revani (yaklaşık)",category:"Tatlılar",kcal:290},
+{name:"Kabak tatlısı (yaklaşık)",category:"Tatlılar",kcal:180},
+{name:"Ayva tatlısı (yaklaşık)",category:"Tatlılar",kcal:150},
+{name:"Üzüm (yaklaşık)",category:"Meyveler",kcal:69},
+{name:"Şeftali (yaklaşık)",category:"Meyveler",kcal:39},
+{name:"Kayısı (yaklaşık)",category:"Meyveler",kcal:48},
+{name:"İncir (yaklaşık)",category:"Meyveler",kcal:74},
+{name:"Karpuz (yaklaşık)",category:"Meyveler",kcal:30},
+{name:"Kavun (yaklaşık)",category:"Meyveler",kcal:34},
+{name:"Nar (yaklaşık)",category:"Meyveler",kcal:83},
+{name:"Mandalina (yaklaşık)",category:"Meyveler",kcal:53},
+{name:"Erik (yaklaşık)",category:"Meyveler",kcal:46},
+{name:"Kiraz (yaklaşık)",category:"Meyveler",kcal:63},
+{name:"Vişne (yaklaşık)",category:"Meyveler",kcal:50},
+{name:"Hurma (yaklaşık)",category:"Meyveler",kcal:277},
+{name:"Patlıcan (yaklaşık)",category:"Sebzeler",kcal:25},
+{name:"Ispanak (yaklaşık)",category:"Sebzeler",kcal:23},
+{name:"Pırasa (yaklaşık)",category:"Sebzeler",kcal:61},
+{name:"Taze fasulye (yaklaşık)",category:"Sebzeler",kcal:31},
+{name:"Yeşil biber (yaklaşık)",category:"Sebzeler",kcal:20},
+{name:"Kırmızı biber (yaklaşık)",category:"Sebzeler",kcal:31},
+{name:"Marul (yaklaşık)",category:"Sebzeler",kcal:15},
+{name:"Maydanoz (yaklaşık)",category:"Sebzeler",kcal:36},
+{name:"Karnabahar (yaklaşık)",category:"Sebzeler",kcal:25},
+{name:"Lahana (yaklaşık)",category:"Sebzeler",kcal:25},
+{name:"Turp (yaklaşık)",category:"Sebzeler",kcal:16},
+{name:"Ceviz içi (yaklaşık)",category:"Kuruyemişler",kcal:654},
+{name:"Fındık (yaklaşık)",category:"Kuruyemişler",kcal:628},
+{name:"Badem (yaklaşık)",category:"Kuruyemişler",kcal:579},
+{name:"Antep fıstığı (yaklaşık)",category:"Kuruyemişler",kcal:562},
+{name:"Kabak çekirdeği (yaklaşık)",category:"Kuruyemişler",kcal:559},
+{name:"Ay çekirdeği (yaklaşık)",category:"Kuruyemişler",kcal:584},
+{name:"Kuru üzüm (yaklaşık)",category:"Kuruyemişler",kcal:299},
+{name:"Kuru kayısı (yaklaşık)",category:"Kuruyemişler",kcal:241}
 ];
 const format=(n:number)=>n.toLocaleString('tr-TR',{maximumFractionDigits:1});
 export function FoodCalculator(){
- const [food,setFood]=useState(foods[0].name);
- const [grams,setGrams]=useState('100');
+ const [food,setFood]=useState('');
+ const [grams,setGrams]=useState('');
  const [query,setQuery]=useState('');
- const [category,setCategory]=useState('Tümü');
- const categories=['Tümü',...Array.from(new Set(foods.map(f=>f.category)))];
- const filtered=foods.filter(f=>(category==='Tümü'||f.category===category)&&f.name.toLocaleLowerCase('tr-TR').includes(query.trim().toLocaleLowerCase('tr-TR')));
+ const [category,setCategory]=useState('');
+ const categories=['', 'Tümü',...Array.from(new Set(foods.map(f=>f.category)))];
+ const filtered=foods.filter(f=>(category===''||category==='Tümü'||f.category===category)&&f.name.toLocaleLowerCase('tr-TR').includes(query.trim().toLocaleLowerCase('tr-TR')));
  const selected=foods.find(f=>f.name===food);
  const amount=Number(grams);
  const valid=grams.trim()!==''&&Number.isFinite(amount)&&amount>0&&amount<=5000;
@@ -29,8 +148,8 @@ export function FoodCalculator(){
   <div className="foodcalc-layout">
    <div className="foodcalc-form">
     <label htmlFor="foodcalc-search">1. Besin ara</label><input id="foodcalc-search" type="search" value={query} onChange={e=>setQuery(e.target.value)} placeholder="Örn. muz, mercimek, balık"/>
-    <label htmlFor="foodcalc-category">Besin grubu</label><select id="foodcalc-category" value={category} onChange={e=>setCategory(e.target.value)}>{categories.map(c=><option key={c}>{c}</option>)}</select>
-    <label htmlFor="foodcalc-food">2. Besin seç</label><select id="foodcalc-food" value={filtered.some(f=>f.name===food)?food:(filtered[0]?.name||'')} disabled={filtered.length===0} onChange={e=>setFood(e.target.value)}>{filtered.map(f=><option key={f.name} value={f.name}>{f.name}</option>)}</select>
+    <label htmlFor="foodcalc-category">Besin grubu</label><select id="foodcalc-category" value={category} onChange={e=>setCategory(e.target.value)}>{categories.map(c=><option key={c} value={c}>{c||'Besin grubu seçin (isteğe bağlı)'}</option>)}</select>
+    <label htmlFor="foodcalc-food">2. Besin seç</label><select id="foodcalc-food" value={filtered.some(f=>f.name===food)?food:''} disabled={filtered.length===0} onChange={e=>setFood(e.target.value)}><option value="">Besin seçiniz...</option>{filtered.map(f=><option key={f.name} value={f.name}>{f.name}</option>)}</select>
     {filtered.length===0&&<p className="foodcalc-error">Bu aramada besin bulunamadı. Arama sözcüğünü veya grubu değiştirin.</p>}
     <label htmlFor="foodcalc-grams">3. Tüketilen miktar (gram)</label><input id="foodcalc-grams" type="number" min="1" max="5000" step="1" value={grams} onChange={e=>setGrams(e.target.value)} aria-invalid={!valid}/>
     <div className="foodcalc-quick" aria-label="Hızlı miktar seçimi">{[50,100,150,200,250].map(g=><button type="button" className={amount===g?'active':''} key={g} onClick={()=>setGrams(String(g))}>{g} g</button>)}</div>
@@ -38,12 +157,12 @@ export function FoodCalculator(){
    </div>
    <div className="foodcalc-result" aria-live="polite">
     <span className="foodcalc-result-label">HESAPLANAN ENERJİ</span>
-    {valid&&filtered.length>0&&selected?(()=>{const f=filtered.find(x=>x.name===food)||filtered[0];return <><div className="foodcalc-calories">{format(f.kcal*factor)} <small>kcal</small></div><strong>{f.name}</strong><p>{format(amount)} gram · 100 gramda {format(f.kcal)} kcal</p>
+    {valid&&filtered.length>0&&selected&&filtered.some(f=>f.name===food)?(()=>{const f=selected;return <><div className="foodcalc-calories">{format(f.kcal*factor)} <small>kcal</small></div><strong>{f.name}</strong><p>{format(amount)} gram · 100 gramda {format(f.kcal)} kcal</p>
     {f.source?<><div className="foodcalc-source verified">TÜRKOMP verisi · 100 g yenilebilir kısım</div><a href={f.source} target="_blank" rel="noopener noreferrer">Resmî veri kaynağını görüntüle ↗</a></>:<div className="foodcalc-source">Yaklaşık örnek değer · Resmî veriyle doğrulanmadı</div>}
     {f.protein!==undefined&&<div className="foodcalc-macros"><div><span>Protein</span><strong>{format(f.protein*factor)} g</strong></div><div><span>Karbonhidrat</span><strong>{format((f.carbs||0)*factor)} g</strong></div><div><span>Yağ</span><strong>{format((f.fat||0)*factor)} g</strong></div></div>}
     </>})():<p className="foodcalc-error">Hesaplama için listeden besin seçin ve 1–5000 gram arasında bir miktar girin.</p>}
    </div>
   </div>
-  <div className="foodcalc-guidance"><strong>Kaynak ve kullanım bilgisi</strong><p>Sağlıklı beslenme yaklaşımı için Sağlık Bakanlığı Türkiye Beslenme Rehberi (TÜBER 2022) esas alınmıştır. Doğrulanmış besin değerleri ise Tarım ve Orman Bakanlığının TÜRKOMP veri tabanından alınmıştır. Diğer değerler yaklaşık örnektir; pişirme yağı, tarif, marka ve porsiyon farklılıkları sonucu değiştirir.</p><a href="https://hsgm.saglik.gov.tr/depo/birimler/saglikli-beslenme-ve-hareketli-hayat-db/Dokumanlar/Rehberler/Turkiye_Beslenme_Rehber_TUBER_2022_min.pdf" target="_blank" rel="noopener noreferrer">TÜBER 2022 rehberini aç ↗</a></div>
+  <div className="foodcalc-guidance"><strong>Kaynak ve kullanım bilgisi</strong><p>Sağlıklı beslenme yaklaşımında Sağlık Bakanlığı Türkiye Beslenme Rehberi (TÜBER 2022) dikkate alınmıştır. TÜRKOMP kaynaklı bazı kayıtlar ayrıca işaretlenmiştir. TÜRKOMP verilerinin yeniden kullanımı kendi kullanım koşullarına tabidir. Diğer değerler yaklaşık örnektir; pişirme yağı, tarif, marka ve porsiyon farklılıkları sonucu değiştirir.</p><a href="https://hsgm.saglik.gov.tr/depo/birimler/saglikli-beslenme-ve-hareketli-hayat-db/Dokumanlar/Rehberler/Turkiye_Beslenme_Rehber_TUBER_2022_min.pdf" target="_blank" rel="noopener noreferrer">TÜBER 2022 rehberini aç ↗</a></div>
  </section>;
 }
