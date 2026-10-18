@@ -14,7 +14,7 @@ function dietai_ai_allow_request(string $clientId,string $secret,string $directo
     $entries=json_decode(is_string($raw)?$raw:'',true);
     if (!is_array($entries))$entries=[];
     $entries=array_values(array_filter($entries,static fn($t):bool=>is_int($t)&&$t>$now-3600&&$t<=$now));
-    $allowed=count($entries)<10;
+    $allowed=count($entries)<30;
     if ($allowed)$entries[]=$now;
     rewind($file);
     $ok=ftruncate($file,0)&&fwrite($file,json_encode($entries))!==false&&fflush($file);
