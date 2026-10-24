@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {GOOGLE_LOGIN_ENABLED, GOOGLE_WEB_CLIENT_ID} from './googleAuthConfig';
+import './account-panel.css';
 
 type GoogleCredentialResponse = {credential?: string};
 type GoogleIdentity = {initialize: (options: {client_id: string; callback: (response: GoogleCredentialResponse) => void}) => void; renderButton: (element: HTMLElement, options: {theme: string; size: string; text: string}) => void};
@@ -83,25 +84,39 @@ export function AccountPanel() {
     event.preventDefault();
     setStatus('Hesap oluşturma henüz etkin değil. Herhangi bir kayıt verisi gönderilmedi.');
   }
-  return <section className="account-panel">
-    <h2>Hesap girişi</h2>
-    <p>Hesap hizmeti etkinleştirildiğinde e-posta adresinizle giriş yapabilirsiniz.</p>
-    {GOOGLE_LOGIN_ENABLED && <div ref={googleButtonRef} aria-label="Google ile giriş" />}
-    <form onSubmit={signIn}>
-      <label>E-posta<input type="email" autoComplete="username" required value={email} onChange={e=>setEmail(e.target.value)}/></label>
-      <label>Parola<input type="password" autoComplete="current-password" required value={password} onChange={e=>setPassword(e.target.value)}/></label>
-      <button disabled={loading}>{loading?'Kontrol ediliyor…':'Giriş yap'}</button>
-    </form>
-    {status&&<p role="status">{status}</p>}
-    <p>Sağlık profiliniz giriş isteğiyle paylaşılmaz. Yerel kayıtlar bu cihazda şifrelenmeden saklanır.</p>
-    <button type="button" onClick={()=>{setShowRegistration(x=>!x);setStatus('');}}>
-      {showRegistration?'Kayıt bilgilendirmesini kapat':'Yeni hesap oluştur'}
-    </button>
-    {showRegistration&&<form onSubmit={registrationInfo}>
-      <h3>Yeni hesap</h3>
-      <p>Kayıt işlemi sunucuda henüz etkin değildir. Bu bölüm şu anda bilgilendirme amaçlıdır.</p>
-      <p>Gizlilik ve veri işleme koşulları kesinleşmeden hesap kaydı açılmayacaktır. Bu ekran herhangi bir açık rıza toplamaz.</p>
-      <button type="submit">Kayıt durumunu kontrol et</button>
-    </form>}
+  return <section className="account-panel" aria-labelledby="account-title">
+    <div className="account-panel__intro">
+      <span className="account-panel__eyebrow">DİYETİSYEN AI · HESABIM</span>
+      <h2 id="account-title">Hesabınıza hoş geldiniz</h2>
+      <p>Sağlıklı yaşam yolculuğunuza güvenle devam edin.</p>
+    </div>
+    <div className="account-panel__content">
+      {GOOGLE_LOGIN_ENABLED && <div className="account-panel__google">
+        <div ref={googleButtonRef} className="account-panel__google-button" aria-label="Google ile giriş" />
+      </div>}
+      <div className="account-panel__divider"><span>E-posta ile giriş</span></div>
+      <p className="account-panel__hint">E-posta ve parola ile giriş henüz etkin değil.</p>
+      <form className="account-panel__form" onSubmit={signIn}>
+        <label htmlFor="dietai-login-email">E-posta adresi</label>
+        <input id="dietai-login-email" type="email" autoComplete="username" placeholder="ornek@eposta.com" required value={email} onChange={e=>setEmail(e.target.value)}/>
+        <label htmlFor="dietai-login-password">Parola</label>
+        <input id="dietai-login-password" type="password" autoComplete="current-password" placeholder="Parolanız" required value={password} onChange={e=>setPassword(e.target.value)}/>
+        <button type="submit" disabled={loading}>{loading?'Kontrol ediliyor…':'Giriş yap'}</button>
+      </form>
+      {status&&<p className="account-panel__status" role="status">{status}</p>}
+      <div className="account-panel__privacy">
+        <span aria-hidden="true">♧</span>
+        <p>Sağlık profiliniz giriş sırasında Google ile paylaşılmaz. Bu cihazdaki yerel kayıtlar henüz şifrelenmeden saklanır.</p>
+      </div>
+      <button className="account-panel__register-toggle" type="button" aria-expanded={showRegistration} onClick={()=>{setShowRegistration(x=>!x);setStatus('');}}>
+        {showRegistration?'Kayıt bilgisini gizle':'Yeni hesap oluştur'}
+      </button>
+      {showRegistration&&<form className="account-panel__registration" onSubmit={registrationInfo}>
+        <h3>Yeni hesap</h3>
+        <p>Yeni hesap başvuruları Google üzerinden alınır ve yönetici onayı gerektirir. E-posta/parola ile kayıt henüz etkin değildir.</p>
+        <p>Bu alan herhangi bir açık rıza toplamaz.</p>
+        <button type="submit">Kayıt durumunu kontrol et</button>
+      </form>}
+    </div>
   </section>;
 }
