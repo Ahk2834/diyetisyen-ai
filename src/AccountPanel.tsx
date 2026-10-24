@@ -40,7 +40,8 @@ export function AccountPanel() {
               pending:'Başvurunuz alındı. Yönetici onayı bekleniyor.',
               active:'Google ile giriş başarılı.',
               disabled:'Bu hesap devre dışı bırakılmış.',
-              account_link_required:'Bu e-posta ile mevcut bir hesap var. Hesap eşleştirmesi için yöneticiye başvurun.'
+              account_link_required:'Bu e-posta ile mevcut bir hesap var. Hesap eşleştirmesi için yöneticiye başvurun.',
+              session_not_enabled:'Hesabınız onaylı ancak güvenli oturum açma henüz etkin değil.'
             };
             setStatus(messages[result.status] || 'İşlem tamamlanamadı.');
           } catch {setStatus('Sunucuya ulaşılamadı.');}
