@@ -3,4 +3,4 @@ export const GOOGLE_WEB_CLIENT_ID = '255875796749-j08u7l1qmdad17qoi79e4eugtrlgsq
 /** Only this origin was authorized in Google Cloud Console. */
 export const GOOGLE_AUTHORIZED_ORIGIN = 'https://yenilikciegitim.com';
 /** Server-side verification and administrator approval must be completed before enabling login. */
-export const GOOGLE_LOGIN_ENABLED = false;
+export const GOOGLE_LOGIN_ENABLED = true;
