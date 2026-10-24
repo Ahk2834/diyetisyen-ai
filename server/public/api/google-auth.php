@@ -42,15 +42,18 @@ try {
     require_once $private . '/auth_core.php';
     require_once $private . '/google_token_verify.php';
     require_once $private . '/google_account_service.php';
+    require_once $private . '/google_session.php';
     $clientId = '255875796749-j08u7l1qmdad17qoi79e4eugtrlgsqv4.apps.googleusercontent.com';
     $identity = dietai_google_verify_id_token($credential, $clientId);
     if ($identity === null) dietai_google_reply(401, 'invalid_credential');
     $pdo = auth_db();
     $result = dietai_google_apply_verified_identity($pdo, $identity);
     $status = (string) ($result['status'] ?? 'error');
-    // Even approved accounts are not signed in by this endpoint yet.
-    // Return pending until the authenticated session flow is complete.
-    if ($status === 'active') $status = 'session_not_enabled';
+    if ($status === 'active') {
+        $userId = $result['user_id'] ?? null;
+        if (!is_int($userId) || $userId <= 0) dietai_google_reply(503, 'temporarily_unavailable');
+        dietai_session_start($pdo, $userId);
+    }
     dietai_google_reply(200, $status);
 } catch (Throwable $exception) {
     error_log('DiyetAI Google auth request failed: ' . get_class($exception));
