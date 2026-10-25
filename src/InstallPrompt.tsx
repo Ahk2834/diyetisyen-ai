@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from 'react';
+import {useEffect,useState} from 'react';
 type InstallEvent=Event & {prompt:()=>Promise<void>;userChoice:Promise<{outcome:string}>};
 export function InstallPrompt(){
   const [install,setInstall]=useState<InstallEvent|null>(null);
