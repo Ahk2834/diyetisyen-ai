@@ -9,6 +9,9 @@ declare global {interface Window {google?: {accounts?: {id?: GoogleIdentity}}}}
 export function AccountPanel() {
   const googleButtonRef=React.useRef<HTMLDivElement>(null);
   const [email,setEmail]=useState('');
+  const [googleCredential,setGoogleCredential]=useState('');
+  const [invitationCode,setInvitationCode]=useState('');
+  const [googleStatus,setGoogleStatus]=useState('');
   const [password,setPassword]=useState('');
   const [status,setStatus]=useState('');
   const [loading,setLoading]=useState(false);
@@ -27,6 +30,7 @@ export function AccountPanel() {
         client_id: GOOGLE_WEB_CLIENT_ID,
         callback: async ({credential})=>{
           if(!credential) {setStatus('Google kimlik bilgisi alınamadı.');return;}
+          setGoogleCredential(credential);
           setLoading(true);
           try {
             const response=await fetch('/diyetisyen-ai/api/google-auth.php',{
@@ -37,11 +41,13 @@ export function AccountPanel() {
             });
             const result=await response.json();
             if(!response.ok) {setStatus('Google giriş isteği tamamlanamadı.');return;}
+            setGoogleStatus(String(result.status || ''));
             const messages:Record<string,string>={
-              pending:'Başvurunuz alındı. Yönetici onayı bekleniyor.',
+              pending:'Google hesabınız doğrulandı. Hesabınızı etkinleştirmek için davet kodunuzu girin.',
               active:'Google ile giriş başarılı.',
               disabled:'Bu hesap devre dışı bırakılmış.',
               account_link_required:'Bu e-posta ile mevcut bir hesap var. Hesap eşleştirmesi için yöneticiye başvurun.',
+              invalid_invitation:'Davet kodu geçersiz, süresi dolmuş veya daha önce kullanılmış.',
               session_not_enabled:'Hesabınız onaylı ancak güvenli oturum açma henüz etkin değil.'
             };
             setStatus(messages[result.status] || 'İşlem tamamlanamadı.');
@@ -56,6 +62,27 @@ export function AccountPanel() {
     return ()=>{cancelled=true;script.remove();};
   }, []);
 
+  async function activateInvitation(event:React.FormEvent) {
+    event.preventDefault();
+    if (!googleCredential) {setStatus('Önce Google ile giriş yapın.');return;}
+    setLoading(true);
+    try {
+      const response=await fetch('/diyetisyen-ai/api/google-auth.php',{
+        method:'POST',headers:{'Content-Type':'application/json'},credentials:'same-origin',
+        body:JSON.stringify({credential:googleCredential,invitation_code:invitationCode.trim()})
+      });
+      const result=await response.json();
+      if (response.ok && result.status==='active') {
+        setGoogleStatus('active');setGoogleCredential('');setInvitationCode('');
+        setStatus('Hesabınız etkinleştirildi. Google ile giriş başarılı.');
+      } else if (result.status==='invalid_invitation') {
+        setStatus('Davet kodu geçersiz, süresi dolmuş veya kullanılmış.');
+      } else {
+        setStatus('Etkinleştirme tamamlanamadı. Lütfen yeniden deneyin.');
+      }
+    } catch {setStatus('Sunucuya ulaşılamadı.');}
+    finally {setLoading(false);}
+  }
   async function signIn(event:React.FormEvent) {
     event.preventDefault();
     setLoading(true);
@@ -94,6 +121,14 @@ export function AccountPanel() {
       {GOOGLE_LOGIN_ENABLED && <div className="account-panel__google">
         <div ref={googleButtonRef} className="account-panel__google-button" aria-label="Google ile giriş" />
       </div>}
+      {googleStatus==='pending' && <form className="account-panel__form" onSubmit={activateInvitation}>
+        <label htmlFor="dietai-invitation">Tek kullanımlık davet kodu</label>
+        <input id="dietai-invitation" type="text" inputMode="text" autoComplete="off"
+          placeholder="32 karakterlik davet kodu" maxLength={32} required
+          pattern="[A-Fa-f0-9]{32}" value={invitationCode}
+          onChange={e=>setInvitationCode(e.target.value)} />
+        <button type="submit" disabled={loading || !googleCredential}>{loading?'Kontrol ediliyor…':'Hesabı etkinleştir'}</button>
+      </form>}
       <div className="account-panel__divider"><span>E-posta ile giriş</span></div>
       <p className="account-panel__hint">E-posta ve parola ile giriş henüz etkin değil.</p>
       <form className="account-panel__form" onSubmit={signIn}>
