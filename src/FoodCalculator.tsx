@@ -316,7 +316,8 @@ export function FoodCalculator(){
  const [category,setCategory]=useState('');
  const categories=['', 'Tümü',...Array.from(new Set(foods.map(f=>f.category))).sort((a,b)=>a.localeCompare(b,'tr-TR'))];
  const filtered=foods.filter(f=>(category===''||category==='Tümü'||f.category===category)&&f.name.toLocaleLowerCase('tr-TR').includes(query.trim().toLocaleLowerCase('tr-TR'))).sort((a,b)=>a.name.localeCompare(b.name,'tr-TR'));
- const selected=foods.find(f=>f.name===food);
+ const effectiveFood=filtered.some(f=>f.name===food)?food:(filtered.length===1?filtered[0].name:'');
+ const selected=foods.find(f=>f.name===effectiveFood);
  const amount=Number(grams);
  const valid=grams.trim()!==''&&Number.isFinite(amount)&&amount>0&&amount<=5000;
  const factor=amount/100;
@@ -326,7 +327,8 @@ export function FoodCalculator(){
    <div className="foodcalc-form">
     <label htmlFor="foodcalc-search">1. Besin ara</label><input id="foodcalc-search" type="search" value={query} onChange={e=>setQuery(e.target.value)} placeholder="Örn. muz, mercimek, balık"/>
     <label htmlFor="foodcalc-category">Besin grubu</label><select id="foodcalc-category" value={category} onChange={e=>setCategory(e.target.value)}>{categories.map(c=><option key={c} value={c}>{c||'Besin grubu seçin (isteğe bağlı)'}</option>)}</select>
-    <label htmlFor="foodcalc-food">2. Besin seç ({filtered.length} seçenek)</label><select id="foodcalc-food" value={filtered.some(f=>f.name===food)?food:''} disabled={filtered.length===0} onChange={e=>setFood(e.target.value)}><option value="">Besin seçiniz...</option>{filtered.map(f=><option key={f.name} value={f.name}>{f.name}</option>)}</select>
+    <label htmlFor="foodcalc-food">2. Besin seç ({filtered.length} seçenek)</label><select id="foodcalc-food" value={effectiveFood} disabled={filtered.length===0} onChange={e=>setFood(e.target.value)}><option value="">Besin seçiniz...</option>{filtered.map(f=><option key={f.name} value={f.name}>{f.name}</option>)}</select>
+    {filtered.length===1&&<p className="foodcalc-hint" role="status">{filtered[0].name} otomatik seçildi.</p>}
     {filtered.length===0&&<p className="foodcalc-error">Bu aramada besin bulunamadı. Arama sözcüğünü veya grubu değiştirin.</p>}
     <label htmlFor="foodcalc-grams">3. Tüketilen miktar (gram)</label><input id="foodcalc-grams" type="number" min="1" max="5000" step="1" value={grams} onChange={e=>setGrams(e.target.value)} aria-invalid={!valid}/>
     <div className="foodcalc-quick" aria-label="Hızlı miktar seçimi">{[50,100,150,200,250].map(g=><button type="button" className={amount===g?'active':''} key={g} onClick={()=>setGrams(String(g))}>{g} g</button>)}</div>
@@ -334,7 +336,7 @@ export function FoodCalculator(){
    </div>
    <div className="foodcalc-result" aria-live="polite">
     <span className="foodcalc-result-label">HESAPLANAN ENERJİ</span>
-    {valid&&filtered.length>0&&selected&&filtered.some(f=>f.name===food)?(()=>{const f=selected;return <><div className="foodcalc-calories">{format(f.kcal*factor)} <small>kcal</small></div><strong>{f.name}</strong><p>{format(amount)} gram · 100 gramda {format(f.kcal)} kcal</p>
+    {valid&&selected&&effectiveFood!==''?(()=>{const f=selected;return <><div className="foodcalc-calories">{format(f.kcal*factor)} <small>kcal</small></div><strong>{f.name}</strong><p>{format(amount)} gram · 100 gramda {format(f.kcal)} kcal</p>
     {f.source?<><div className="foodcalc-source verified">TÜRKOMP verisi · 100 g yenilebilir kısım</div><a href={f.source} target="_blank" rel="noopener noreferrer">Resmî veri kaynağını görüntüle ↗</a></>:<div className="foodcalc-source">Yaklaşık örnek değer · Resmî veriyle doğrulanmadı</div>}
     {f.protein!==undefined&&<div className="foodcalc-macros"><div><span>Protein</span><strong>{format(f.protein*factor)} g</strong></div><div><span>Karbonhidrat</span><strong>{format((f.carbs||0)*factor)} g</strong></div><div><span>Yağ</span><strong>{format((f.fat||0)*factor)} g</strong></div></div>}
     </>})():<p className="foodcalc-error">Hesaplama için listeden besin seçin ve 1–5000 gram arasında bir miktar girin.</p>}
