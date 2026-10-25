@@ -32,7 +32,9 @@ if ($fetchSite !== '' && !in_array($fetchSite, ['same-origin', 'none'], true)) {
 $raw = file_get_contents('php://input', false, null, 0, 9000);
 if (!is_string($raw) || strlen($raw) > 8999) dietai_google_reply(400, 'invalid_request');
 $input = json_decode($raw, true);
-$credential = $input['credential'] ?? null;
+$credential = is_array($input) ? ($input['credential'] ?? null) : null;
+$invitationCode = is_array($input) ? ($input['invitation_code'] ?? null) : null;
+if ($invitationCode !== null && (!is_string($invitationCode) || strlen($invitationCode) > 64)) dietai_google_reply(400, 'invalid_request');
 if (!is_string($credential) || strlen($credential) > 8192 || $credential === '') {
     dietai_google_reply(400, 'invalid_request');
 }
@@ -47,7 +49,7 @@ try {
     $identity = dietai_google_verify_id_token($credential, $clientId);
     if ($identity === null) dietai_google_reply(401, 'invalid_credential');
     $pdo = auth_db();
-    $result = dietai_google_apply_verified_identity($pdo, $identity);
+    $result = dietai_google_apply_verified_identity($pdo, $identity, $invitationCode);
     $status = (string) ($result['status'] ?? 'error');
     if ($status === 'active') {
         $userId = $result['user_id'] ?? null;
