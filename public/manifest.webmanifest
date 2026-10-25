@@ -1,0 +1,18 @@
+{
+  "name": "Diyetisyen AI",
+  "short_name": "Diyetisyen AI",
+  "description": "Beslenme ve sağlıklı yaşam takibi",
+  "start_url": "/diyetisyen-ai/",
+  "scope": "/diyetisyen-ai/",
+  "display": "standalone",
+  "background_color": "#f5faf7",
+  "theme_color": "#147e65",
+  "icons": [
+    {
+      "src": "/diyetisyen-ai/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
