@@ -61,7 +61,9 @@ function dietai_google_verify_id_token(string $jwt, string $clientId): ?array {
         $publicKey = openssl_pkey_get_public($pem);
         if ($publicKey === false) continue;
         $verified = openssl_verify($parts[0] . '.' . $parts[1], $signature, $publicKey, OPENSSL_ALGO_SHA256);
-        if ($verified === 1) return ['sub' => $claims['sub'], 'email' => $claims['email']];
+        if ($verified === 1) return ['sub' => $claims['sub'], 'email' => $claims['email'],
+                'given_name' => is_string($claims['given_name'] ?? null) ? $claims['given_name'] : '',
+                'family_name' => is_string($claims['family_name'] ?? null) ? $claims['family_name'] : ''];
     }
     return null;
 }
