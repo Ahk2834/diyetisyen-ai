@@ -38,30 +38,29 @@ jobs:
           test -s dist/index.html
           test -d dist/assets
           grep -q '/diyetisyen-ai/assets/' dist/index.html
-      - name: Create deployment ZIP
+      - name: Create single home-directory extraction ZIP
         run: |
-          cd dist
-          zip -qr ../diyetisyen-ai-cpanel.zip .
-      - name: Build separate backend and database packages
+          set -eu
+          mkdir -p release/public_html/diyetisyen-ai/api release/diyetai_private release/kurulum
+          cp -R dist/. release/public_html/diyetisyen-ai/
+          cp server/public/api/google-auth.php server/public/api/google-session.php release/public_html/diyetisyen-ai/api/
+          cp hosting/private/auth_core.php server/private/google_account_service.php server/private/google_token_verify.php server/private/google_session.php release/diyetai_private/
+          cp database/migrations/002_invitation_activation.sql database/migrations/003_create_invitation_phpmyadmin.sql release/kurulum/
+          cp docs/DAVET_KODLU_UYELIK_KURULUM.md release/kurulum/
+          test ! -e release/diyetai_private/db_config.php
+          test ! -e release/public_html/diyetisyen-ai/kurulum
+          cd release
+          zip -qr ../diyetisyen-ai-TEK-PAKET.zip .
+      - name: Verify single package layout
         run: |
-          mkdir -p release/public-api release/private release/database
-          cp server/public/api/google-auth.php server/public/api/google-session.php release/public-api/
-          cp server/private/google_account_service.php server/private/google_token_verify.php server/private/google_session.php release/private/
-          cp hosting/private/invitation_generate.php release/private/
-          cp database/migrations/002_invitation_activation.sql database/migrations/003_create_invitation_phpmyadmin.sql release/database/
-          cp docs/DAVET_KODLU_UYELIK_KURULUM.md release/
-          cd release/public-api && zip -qr ../../diyetisyen-ai-public-api.zip .
-          cd ../private && zip -qr ../../diyetisyen-ai-private-php.zip .
-          cd ../database && zip -qr ../../diyetisyen-ai-database.zip .
+          unzip -l diyetisyen-ai-TEK-PAKET.zip | grep -q 'public_html/diyetisyen-ai/index.html'
+          unzip -l diyetisyen-ai-TEK-PAKET.zip | grep -q 'public_html/diyetisyen-ai/api/google-auth.php'
+          unzip -l diyetisyen-ai-TEK-PAKET.zip | grep -q 'diyetai_private/google_token_verify.php'
+          unzip -l diyetisyen-ai-TEK-PAKET.zip | grep -q 'kurulum/002_invitation_activation.sql'
       - name: Upload cPanel package
         uses: actions/upload-artifact@v4
         with:
-          name: diyetisyen-ai-cpanel-site
-          path: |
-            diyetisyen-ai-cpanel.zip
-            diyetisyen-ai-public-api.zip
-            diyetisyen-ai-private-php.zip
-            diyetisyen-ai-database.zip
-            release/DAVET_KODLU_UYELIK_KURULUM.md
+          name: diyetisyen-ai-TEK-PAKET
+          path: diyetisyen-ai-TEK-PAKET.zip
           retention-days: 14
           if-no-files-found: error
