@@ -19,13 +19,13 @@
 - Frontend: `npm ci` (lockfile varsa) veya `npm install`, ardından `npm test` ve `npm run build`. `dist/` içeriği hedef `public_html/diyetisyen-ai/` klasörüne yüklenir. `api/` klasörünü silmeyin.
 
 ## 3. Davet kodu üretimi
-cPanel Terminal/SSH üzerinden, **public_html dışında**:
+**Terminal/SSH erişimi yoksa:** Önce `database/migrations/002_invitation_activation.sql` çalıştırın. Ardından phpMyAdmin SQL sekmesinde `database/migrations/003_create_invitation_phpmyadmin.sql` dosyasını çalıştırın; sonuçta tek kullanımlık kod görüntülenir. Kodun yalnızca SHA-256 özeti veritabanında saklanır.\n\nTerminal olan başka ortamlarda, **public_html dışında**:
 ```bash
 php /home2/yenilikc/diyetai_private/invitation_generate.php
 ```
 Çıkan 32 karakterlik kod yalnızca bir kez görüntülenir. Kodun SHA-256 özeti MySQL'e kaydedilir. Kodu sadece davet edilecek kullanıcıyla güvenli yoldan paylaşın. Otomatik e-posta gönderimi yoktur. Kod 30 gün geçerlidir.
 
-Terminal erişimi yoksa geçici bir web endpoint'i açmayın; kod üretimi için güvenli alternatif yöntem ayrıca belirlenmelidir.
+Terminal gerekmiyor; phpMyAdmin SQL yöntemi yeterlidir. Kodları sorgu çıktısından güvenli şekilde alın ve sorgu geçmişinde görünür olabileceğini dikkate alın.
 
 ## 4. Kabul testleri
 1. Google hesabı doğrulansın; yeni kullanıcı `pending` görsün.
