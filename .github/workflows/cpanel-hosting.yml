@@ -67,18 +67,17 @@ jobs:
           retention-days: 14
           if-no-files-found: error
 
-      - name: Package WordPress Diet AI updater
+      - name: Prepare installable WordPress plugin artifact
         run: |
           set -eu
-          test -s wordpress/diet-ai-updater/diet-ai-updater.php
           mkdir -p wp-release/diet-ai-updater
           cp wordpress/diet-ai-updater/diet-ai-updater.php wp-release/diet-ai-updater/
-          cd wp-release
-          zip -qr ../diet-ai-wordpress-guncelleyici-v1.1.0.zip diet-ai-updater
-      - name: Upload WordPress updater plugin
+          php -l wp-release/diet-ai-updater/diet-ai-updater.php
+          test -s wp-release/diet-ai-updater/diet-ai-updater.php
+      - name: Upload WordPress-installable plugin directory
         uses: actions/upload-artifact@v4
         with:
-          name: diet-ai-wordpress-guncelleyici-v1.1.0
-          path: diet-ai-wordpress-guncelleyici-v1.1.0.zip
+          name: diet-ai-wordpress-guncelleyici-DIREKT-YUKLE
+          path: wp-release/
           retention-days: 14
           if-no-files-found: error
