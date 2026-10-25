@@ -29,3 +29,16 @@
 .account-panel__registration button{padding:10px 14px;border:1px solid #d1e5da;border-radius:9px;background:#edf8f2;color:#196b53;cursor:pointer}
 @media(max-width:600px){.account-panel{width:100%;margin:14px auto 24px;border-radius:18px}.account-panel__intro{padding:25px 21px 20px}.account-panel__content{padding:22px 21px 25px}.account-panel__form input{font-size:16px}.account-panel__google-button{max-width:100%}}
 @media(prefers-reduced-motion:no-preference){.account-panel button,.account-panel input{transition:background .18s,border-color .18s,box-shadow .18s}}
+
+.admin-invitations{width:100%;min-width:0;margin:16px 0;padding:16px;border:1px solid #dce8df;border-radius:13px;background:#fff}
+.admin-invitations h2{font-size:17px;margin:0 0 9px;line-height:1.35}.admin-invitations h3{font-size:14px;margin:19px 0 10px}
+.admin-invitations>p{font-size:12px;line-height:1.65;margin:8px 0 13px;color:#597267}
+.admin-invitations button{font-size:12px;padding:8px 11px;line-height:1.3;min-height:34px}
+.admin-invitations__new{margin:13px 0;padding:13px;border:1px solid #cde5d7;border-radius:10px;background:#f4faf6}
+.admin-invitations__new p{margin:6px 0 9px}.admin-invitations__new code{display:block;overflow-wrap:anywhere;padding:9px;background:white;border-radius:7px;font-size:12px}
+.admin-invitations__table{width:100%;max-height:300px;overflow:auto;border:1px solid #e2eae4;border-radius:9px}
+.admin-invitations table{width:100%;border-collapse:collapse;font-size:11px;min-width:360px}
+.admin-invitations th,.admin-invitations td{padding:9px 8px;border-bottom:1px solid #e7eee9;text-align:left;vertical-align:middle;white-space:nowrap}
+.admin-invitations th{background:#f2f8f4;position:sticky;top:0;color:#3b6650}
+.admin-invitations td button{padding:6px 8px;min-height:29px}
+@media(max-width:600px){.admin-invitations{padding:12px;margin:12px 0}.admin-invitations__table{max-height:260px}}
