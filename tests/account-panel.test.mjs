@@ -2,15 +2,21 @@ import {readFileSync} from 'node:fs';
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 
-test('account registration remains non-operational and does not simulate consent',()=>{
+test('account registration requires Google and a one-use invitation',()=>{
   const panel=readFileSync('src/AccountPanel.tsx','utf8');
-  assert.match(panel,/Hesap oluşturma henüz etkin değil/);
-  assert.match(panel,/herhangi bir açık rıza toplamaz/);
-  assert.doesNotMatch(panel,/privacyConsent|setPrivacyConsent/);
+  assert.match(panel,/Tek kullanımlık davet kodunuz/);
+  assert.match(panel,/invitation_code:invitationCode\.trim\(\)/);
   assert.doesNotMatch(panel,/action:\s*['"]register['"]/);
+  assert.doesNotMatch(panel,/privacyConsent|setPrivacyConsent/);
 });
-test('login request sends no health profile',()=>{
+test('Google login sends no health profile and uses same-origin credentials',()=>{
   const panel=readFileSync('src/AccountPanel.tsx','utf8');
-  assert.match(panel,/JSON\.stringify\(\{action:'login',email,password\}\)/);
+  assert.match(panel,/JSON\.stringify\(\{credential\}\)/);
   assert.match(panel,/credentials:'same-origin'/);
+  assert.doesNotMatch(panel,/healthProfile|medicalHistory|localStorage/);
+});
+test('account panel supports session and logout',()=>{
+  const panel=readFileSync('src/AccountPanel.tsx','utf8');
+  assert.match(panel,/google-session\.php/);
+  assert.match(panel,/Oturumu kapat/);
 });
