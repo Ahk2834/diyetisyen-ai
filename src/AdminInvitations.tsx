@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from 'react';
+import {useEffect,useState} from 'react';
 type Item={id:number;created_at:string;expires_at:string|null;used_at:string|null;revoked_at:string|null;used_by_email:string|null};
 const url='/diyetisyen-ai/api/admin-invitations.php';
 export function AdminInvitations(){
