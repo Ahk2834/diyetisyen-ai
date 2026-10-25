@@ -43,9 +43,10 @@ jobs:
           set -eu
           mkdir -p release/public_html/diyetisyen-ai/api release/diyetai_private release/kurulum
           cp -R dist/. release/public_html/diyetisyen-ai/
-          cp server/public/api/google-auth.php server/public/api/google-session.php release/public_html/diyetisyen-ai/api/
+          cp server/public/api/google-auth.php server/public/api/google-session.php server/public/api/admin-invitations.php release/public_html/diyetisyen-ai/api/
           cp hosting/private/auth_core.php server/private/google_account_service.php server/private/google_token_verify.php server/private/google_session.php release/diyetai_private/
-          cp database/migrations/002_invitation_activation.sql database/migrations/003_create_invitation_phpmyadmin.sql release/kurulum/
+          cp database/migrations/002_invitation_activation.sql database/migrations/003_create_invitation_phpmyadmin.sql database/migrations/004_invitation_revocation.sql release/kurulum/
+          cp server/private/admin_config.example.php release/kurulum/admin_config.example.php
           cp docs/DAVET_KODLU_UYELIK_KURULUM.md release/kurulum/
           test ! -e release/diyetai_private/db_config.php
           test ! -e release/public_html/diyetisyen-ai/kurulum
