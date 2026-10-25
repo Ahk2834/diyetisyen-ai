@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {GOOGLE_LOGIN_ENABLED, GOOGLE_WEB_CLIENT_ID} from './googleAuthConfig';
 import './account-panel.css';
+import {AdminInvitations} from './AdminInvitations';
 
 type GoogleCredentialResponse = {credential?: string};
 type GoogleIdentity = {
@@ -9,13 +10,14 @@ type GoogleIdentity = {
 };
 declare global {interface Window {google?: {accounts?: {id?: GoogleIdentity}}}}
 type SessionUser = {id:number;email:string;first_name?:string|null;last_name?:string|null};
-type SessionResult = {ok:boolean;authenticated?:boolean;user?:SessionUser|null};
+type SessionResult = {ok:boolean;authenticated?:boolean;user?:SessionUser|null;is_admin?:boolean};
 type AuthStatus = 'pending'|'active'|'disabled'|'account_link_required'|'invalid_invitation'|'';
 const API_BASE='/diyetisyen-ai/api/';
 
-export function AccountPanel() {
+export function AccountPanel({onAuthChange}:{onAuthChange?:(authenticated:boolean)=>void}) {
   const googleButtonRef=useRef<HTMLDivElement>(null);
   const [session,setSession]=useState<SessionUser|null>(null);
+  const [isAdmin,setIsAdmin]=useState(false);
   const [googleCredential,setGoogleCredential]=useState('');
   const [invitationCode,setInvitationCode]=useState('');
   const [googleStatus,setGoogleStatus]=useState<AuthStatus>('');
@@ -29,6 +31,8 @@ export function AccountPanel() {
     if (!result.ok) throw new Error('session_unavailable');
     const user=result.authenticated && result.user ? result.user : null;
     setSession(user);
+    setIsAdmin(Boolean(result.is_admin));
+    onAuthChange?.(user!==null);
     return user!==null;
   }
 
@@ -124,6 +128,8 @@ export function AccountPanel() {
       });
       if (!response.ok) throw new Error('logout_failed');
       setSession(null);
+      setIsAdmin(false);
+      onAuthChange?.(false);
       setGoogleStatus('');
       setGoogleCredential('');
       setInvitationCode('');
@@ -135,7 +141,7 @@ export function AccountPanel() {
   const fullName=[session?.first_name,session?.last_name].filter(Boolean).join(' ');
   return <section className="account-panel" aria-labelledby="account-title">
     <div className="account-panel__intro">
-      <span className="account-panel__eyebrow">DİYETİSYEN AI · HESABIM</span>
+      <span className="account-panel__eyebrow">DIET AI · HESABIM</span>
       <h2 id="account-title">{session?'Hesabım':'Hesabınıza hoş geldiniz'}</h2>
       <p>{session?'Güvenli oturumunuz açık.':'Google hesabınızla güvenle giriş yapın.'}</p>
     </div>
@@ -144,6 +150,7 @@ export function AccountPanel() {
         <h3>{fullName||'Hesap bilgileri'}</h3>
         <p><strong>E-posta:</strong> {session.email}</p>
         <p><strong>Hesap durumu:</strong> Aktif</p>
+        {isAdmin&&<AdminInvitations/>}
         <button type="button" onClick={()=>void signOut()} disabled={loading}>Oturumu kapat</button>
       </div> : <>
         {GOOGLE_LOGIN_ENABLED && <div className="account-panel__google">
