@@ -26,14 +26,14 @@ function dietai_session_user(PDO $pdo): ?array {
     $token = $_COOKIE[DIETAI_SESSION_COOKIE] ?? null;
     if (!is_string($token) || !preg_match('/^[a-f0-9]{64}$/D', $token)) return null;
     $stmt = $pdo->prepare(
-        "SELECT u.id, u.email FROM app_sessions s
+        "SELECT u.id, u.email, u.first_name, u.last_name FROM app_sessions s
          INNER JOIN app_users u ON u.id = s.user_id
          WHERE s.token_hash = :hash AND s.expires_at > UTC_TIMESTAMP()
            AND u.status = 'active' LIMIT 1"
     );
     $stmt->execute(['hash' => hash('sha256', $token)]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    return is_array($user) ? ['id' => (int)$user['id'], 'email' => $user['email']] : null;
+    return is_array($user) ? ['id' => (int)$user['id'], 'email' => $user['email'], 'first_name' => $user['first_name'], 'last_name' => $user['last_name']] : null;
 }
 function dietai_session_end(PDO $pdo): void {
     $token = $_COOKIE[DIETAI_SESSION_COOKIE] ?? null;
