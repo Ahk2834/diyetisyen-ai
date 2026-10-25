@@ -48,7 +48,7 @@ jobs:
           cp server/public/api/google-auth.php server/public/api/google-session.php release/public-api/
           cp server/private/google_account_service.php server/private/google_token_verify.php server/private/google_session.php release/private/
           cp hosting/private/invitation_generate.php release/private/
-          cp database/migrations/002_invitation_activation.sql release/database/
+          cp database/migrations/002_invitation_activation.sql database/migrations/003_create_invitation_phpmyadmin.sql release/database/
           cp docs/DAVET_KODLU_UYELIK_KURULUM.md release/
           cd release/public-api && zip -qr ../../diyetisyen-ai-public-api.zip .
           cd ../private && zip -qr ../../diyetisyen-ai-private-php.zip .
