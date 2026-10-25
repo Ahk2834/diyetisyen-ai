@@ -11,6 +11,10 @@ on:
       - 'tests/**'
       - 'public/**'
       - '.github/workflows/cpanel-hosting.yml'
+      - 'server/**'
+      - 'hosting/private/**'
+      - 'database/migrations/**'
+      - 'docs/DAVET_KODLU_UYELIK_KURULUM.md'
 permissions:
   contents: read
 jobs:
@@ -38,10 +42,26 @@ jobs:
         run: |
           cd dist
           zip -qr ../diyetisyen-ai-cpanel.zip .
+      - name: Build separate backend and database packages
+        run: |
+          mkdir -p release/public-api release/private release/database
+          cp server/public/api/google-auth.php server/public/api/google-session.php release/public-api/
+          cp server/private/google_account_service.php server/private/google_token_verify.php server/private/google_session.php release/private/
+          cp hosting/private/invitation_generate.php release/private/
+          cp database/migrations/002_invitation_activation.sql release/database/
+          cp docs/DAVET_KODLU_UYELIK_KURULUM.md release/
+          cd release/public-api && zip -qr ../../diyetisyen-ai-public-api.zip .
+          cd ../private && zip -qr ../../diyetisyen-ai-private-php.zip .
+          cd ../database && zip -qr ../../diyetisyen-ai-database.zip .
       - name: Upload cPanel package
         uses: actions/upload-artifact@v4
         with:
           name: diyetisyen-ai-cpanel-site
-          path: diyetisyen-ai-cpanel.zip
+          path: |
+            diyetisyen-ai-cpanel.zip
+            diyetisyen-ai-public-api.zip
+            diyetisyen-ai-private-php.zip
+            diyetisyen-ai-database.zip
+            release/DAVET_KODLU_UYELIK_KURULUM.md
           retention-days: 14
           if-no-files-found: error
