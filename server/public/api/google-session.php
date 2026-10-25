@@ -22,7 +22,11 @@ try {
     $pdo = auth_db();
     if ($method === 'GET') {
         $user = dietai_session_user($pdo);
-        dietai_session_reply(200, ['ok'=>true, 'authenticated'=>$user !== null, 'user'=>$user]);
+        $configFile='/home2/yenilikc/diyetai_private/admin_config.php';
+        $config=is_file($configFile)?require $configFile:[];
+        $admins=is_array($config)&&is_array($config['admin_emails']??null)?array_map('strtolower',$config['admin_emails']):[];
+        $isAdmin=$user!==null&&in_array(strtolower((string)$user['email']),$admins,true);
+        dietai_session_reply(200, ['ok'=>true, 'authenticated'=>$user !== null, 'user'=>$user, 'is_admin'=>$isAdmin]);
     }
     // Only POST logout is supported. No user identifiers or permissions come from the client.
     dietai_session_end($pdo);
