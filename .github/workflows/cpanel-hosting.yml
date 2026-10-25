@@ -4,6 +4,7 @@ on:
   push:
     branches: [full-v1-development]
     paths:
+      - 'wordpress/**'
       - 'src/**'
       - 'index.html'
       - 'vite.config.ts'
@@ -63,5 +64,21 @@ jobs:
         with:
           name: diyetisyen-ai-TEK-PAKET
           path: diyetisyen-ai-TEK-PAKET.zip
+          retention-days: 14
+          if-no-files-found: error
+
+      - name: Package WordPress Diet AI updater
+        run: |
+          set -eu
+          test -s wordpress/diet-ai-updater/diet-ai-updater.php
+          mkdir -p wp-release/diet-ai-updater
+          cp wordpress/diet-ai-updater/diet-ai-updater.php wp-release/diet-ai-updater/
+          cd wp-release
+          zip -qr ../diet-ai-wordpress-guncelleyici-v1.1.0.zip diet-ai-updater
+      - name: Upload WordPress updater plugin
+        uses: actions/upload-artifact@v4
+        with:
+          name: diet-ai-wordpress-guncelleyici-v1.1.0
+          path: diet-ai-wordpress-guncelleyici-v1.1.0.zip
           retention-days: 14
           if-no-files-found: error
