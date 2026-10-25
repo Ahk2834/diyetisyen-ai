@@ -47,7 +47,7 @@ function dietai_google_apply_verified_identity(PDO $pdo, array $identity, ?strin
             return ['status'=>'invalid_invitation'];
         }
         $codeHash = hash('sha256', strtolower($invitationCode));
-        $findCode = $pdo->prepare('SELECT id FROM app_invitation_codes WHERE code_hash=:hash AND used_by IS NULL AND (expires_at IS NULL OR expires_at>UTC_TIMESTAMP()) LIMIT 1 FOR UPDATE');
+        $findCode = $pdo->prepare('SELECT id FROM app_invitation_codes WHERE code_hash=:hash AND used_by IS NULL AND revoked_at IS NULL AND (expires_at IS NULL OR expires_at>UTC_TIMESTAMP()) LIMIT 1 FOR UPDATE');
         $findCode->execute(['hash'=>$codeHash]);
         $code = $findCode->fetch(PDO::FETCH_ASSOC);
         if (!$code) {
