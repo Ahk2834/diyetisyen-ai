@@ -9,6 +9,33 @@ function dietai_google_b64url(string $value): string|false {
     if (!preg_match('/^[A-Za-z0-9_-]+$/D', $value)) return false;
     return base64_decode(strtr($value, '-_', '+/'), true);
 }
+
+function dietai_google_der_len(int $length): string {
+    if ($length < 128) return chr($length);
+    $bytes = '';
+    while ($length > 0) { $bytes = chr($length & 255) . $bytes; $length >>= 8; }
+    return chr(128 | strlen($bytes)) . $bytes;
+}
+function dietai_google_der_int(string $bytes): string {
+    $bytes = ltrim($bytes, "\x00");
+    if ($bytes === '') $bytes = "\x00";
+    if ((ord($bytes[0]) & 128) !== 0) $bytes = "\x00" . $bytes;
+    return "\x02" . dietai_google_der_len(strlen($bytes)) . $bytes;
+}
+function dietai_google_jwk_key(array $key): mixed {
+    if (!is_string($key['n'] ?? null) || !is_string($key['e'] ?? null)) return false;
+    $n = dietai_google_b64url($key['n']);
+    $e = dietai_google_b64url($key['e']);
+    if ($n === false || $e === false || strlen($n) < 256 || strlen($n) > 1024 || strlen($e) < 1 || strlen($e) > 8) return false;
+    $rsaBody = dietai_google_der_int($n) . dietai_google_der_int($e);
+    $rsa = "\x30" . dietai_google_der_len(strlen($rsaBody)) . $rsaBody;
+    $algorithm = hex2bin('300d06092a864886f70d0101010500');
+    $bitString = "\x03" . dietai_google_der_len(strlen($rsa) + 1) . "\x00" . $rsa;
+    $body = $algorithm . $bitString;
+    $der = "\x30" . dietai_google_der_len(strlen($body)) . $body;
+    $pem = "-----BEGIN PUBLIC KEY-----\n" . chunk_split(base64_encode($der),64,"\n") . "-----END PUBLIC KEY-----\n";
+    return openssl_pkey_get_public($pem);
+}
 function dietai_google_verify_id_token(string $jwt, string $clientId): ?array {
     if (strlen($jwt) > 8192 || substr_count($jwt, '.') !== 2) return null;
     $parts = explode('.', $jwt);
@@ -54,11 +81,14 @@ function dietai_google_verify_id_token(string $jwt, string $clientId): ?array {
 
     foreach ($jwks['keys'] as $key) {
         if (!is_array($key) || ($key['kid'] ?? null) !== $kid ||
-            ($key['kty'] ?? null) !== 'RSA' || ($key['alg'] ?? null) !== 'RS256' ||
-            ($key['use'] ?? null) !== 'sig') continue;
-        if (!is_array($key['x5c'] ?? null) || !is_string($key['x5c'][0] ?? null)) continue;
-        $pem = "-----BEGIN CERTIFICATE-----\n" . chunk_split($key['x5c'][0], 64, "\n") . "-----END CERTIFICATE-----\n";
-        $publicKey = openssl_pkey_get_public($pem);
+            ($key['kty'] ?? null) !== 'RSA' || (isset($key['alg']) && $key['alg'] !== 'RS256') ||
+            (isset($key['use']) && $key['use'] !== 'sig')) continue;
+        $publicKey = false;
+        if (is_array($key['x5c'] ?? null) && is_string($key['x5c'][0] ?? null)) {
+            $pem = "-----BEGIN CERTIFICATE-----\n" . chunk_split($key['x5c'][0], 64, "\n") . "-----END CERTIFICATE-----\n";
+            $publicKey = openssl_pkey_get_public($pem);
+        }
+        if ($publicKey === false) $publicKey = dietai_google_jwk_key($key);
         if ($publicKey === false) continue;
         $verified = openssl_verify($parts[0] . '.' . $parts[1], $signature, $publicKey, OPENSSL_ALGO_SHA256);
         if ($verified === 1) return ['sub' => $claims['sub'], 'email' => $claims['email'],
